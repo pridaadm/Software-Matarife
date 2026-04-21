@@ -1,0 +1,3205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MATARIFE PRO - Sistema Integral de Gestión</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================
+       MATARIFE PRO - SISTEMA INTEGRAL
+       Estilos Profesionales Nivel Bancario
+       ============================================ */
+    :root {
+      --primary: #1a1a2e; --primary-light: #16213e; --secondary: #0f3460;
+      --accent: #e94560; --accent-hover: #c73e54;
+      --success: #00b894; --success-dark: #00a381;
+      --warning: #fdcb6e; --warning-dark: #e5b85c;
+      --danger: #e74c3c; --danger-dark: #c0392b;
+      --info: #74b9ff; --info-dark: #5a9fd4;
+      --bg-main: #f0f2f5; --bg-card: #ffffff; --bg-sidebar: #1a1a2e;
+      --text-primary: #2d3436; --text-secondary: #636e72;
+      --text-light: #b2bec3; --text-white: #ffffff;
+      --border: #dfe6e9; --border-light: #f1f2f6;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-xl: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --sidebar-width: 280px; --sidebar-collapsed: 70px;
+      --header-height: 65px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-main); color: var(--text-primary);
+      overflow-x: hidden; font-size: 14px; line-height: 1.6;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--text-light); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+
+    /* LOGIN */
+    #loginScreen {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10000; transition: var(--transition);
+    }
+    #loginScreen.hidden { opacity: 0; pointer-events: none; transform: scale(1.1); }
+    .login-container {
+      background: rgba(255,255,255,0.05); backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-xl);
+      padding: 50px; width: 100%; max-width: 460px;
+      box-shadow: var(--shadow-xl);
+    }
+    .login-logo { text-align: center; margin-bottom: 40px; }
+    .login-logo .icon-circle {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #ff6b81);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; font-size: 36px; color: white;
+      box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+    }
+    .login-logo h1 { color: white; font-size: 28px; font-weight: 800; letter-spacing: 2px; }
+    .login-logo p { color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 5px; letter-spacing: 1px; }
+    .login-field { margin-bottom: 20px; }
+    .login-field label {
+      display: block; color: rgba(255,255,255,0.7); font-size: 12px;
+      font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+    }
+    .login-field .input-wrap { position: relative; }
+    .login-field .input-wrap i {
+      position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+      color: rgba(255,255,255,0.3); font-size: 16px;
+    }
+    .login-field input {
+      width: 100%; padding: 14px 15px 14px 45px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-md); color: white; font-size: 15px;
+      font-family: inherit; transition: var(--transition); outline: none;
+    }
+    .login-field input:focus {
+      border-color: var(--accent); background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
+    }
+    .login-field input::placeholder { color: rgba(255,255,255,0.3); }
+    .login-btn {
+      width: 100%; padding: 15px;
+      background: linear-gradient(135deg, var(--accent), #ff6b81);
+      color: white; border: none; border-radius: var(--radius-md);
+      font-size: 16px; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: var(--transition);
+      text-transform: uppercase; letter-spacing: 2px; margin-top: 10px;
+    }
+    .login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4); }
+    .login-error {
+      background: rgba(231, 76, 60, 0.2); border: 1px solid rgba(231, 76, 60, 0.3);
+      color: #ff6b6b; padding: 10px 15px; border-radius: var(--radius-sm);
+      font-size: 13px; margin-bottom: 15px; display: none; text-align: center;
+    }
+    .login-info {
+      margin-top: 25px; padding: 15px;
+      background: rgba(255,255,255,0.05); border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .login-info p { color: rgba(255,255,255,0.4); font-size: 11px; margin-bottom: 3px; }
+
+    /* LAYOUT */
+    #appContainer { display: none; min-height: 100vh; }
+    #appContainer.active { display: flex; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-width); background: var(--bg-sidebar);
+      height: 100vh; position: fixed; left: 0; top: 0; z-index: 1000;
+      transition: var(--transition); display: flex; flex-direction: column; overflow: hidden;
+    }
+    .sidebar.collapsed { width: var(--sidebar-collapsed); }
+    .sidebar-header {
+      padding: 20px; display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06); min-height: 80px;
+    }
+    .sidebar-header .logo-icon {
+      width: 40px; height: 40px; min-width: 40px; border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--accent), #ff6b81);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: white;
+    }
+    .sidebar-header .logo-text { white-space: nowrap; overflow: hidden; }
+    .sidebar-header .logo-text h2 { color: white; font-size: 18px; font-weight: 800; letter-spacing: 1px; }
+    .sidebar-header .logo-text small { color: rgba(255,255,255,0.4); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .sidebar.collapsed .logo-text, .sidebar.collapsed .nav-text,
+    .sidebar.collapsed .nav-section-title, .sidebar.collapsed .nav-badge,
+    .sidebar.collapsed .user-info-text { display: none; }
+    .sidebar-nav { flex: 1; overflow-y: auto; padding: 10px 0; }
+    .nav-section-title {
+      padding: 15px 20px 8px; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2px; color: rgba(255,255,255,0.25); white-space: nowrap;
+    }
+    .nav-item {
+      display: flex; align-items: center; padding: 11px 20px;
+      color: rgba(255,255,255,0.55); text-decoration: none; cursor: pointer;
+      transition: var(--transition); gap: 12px; margin: 1px 8px;
+      border-radius: var(--radius-sm); position: relative; font-size: 13px; font-weight: 500;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+    .nav-item.active {
+      background: linear-gradient(135deg, var(--accent), #ff6b81);
+      color: white; box-shadow: 0 4px 15px rgba(233, 69, 96, 0.3);
+    }
+    .nav-item i { width: 20px; text-align: center; font-size: 16px; min-width: 20px; }
+    .nav-text { white-space: nowrap; overflow: hidden; }
+    .nav-badge {
+      margin-left: auto; background: var(--accent); color: white;
+      padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700;
+    }
+    .nav-item.active .nav-badge { background: rgba(255,255,255,0.3); }
+    .sidebar-user {
+      padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .user-avatar {
+      width: 36px; height: 36px; min-width: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--secondary), var(--info));
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 700;
+    }
+    .user-info-text { overflow: hidden; white-space: nowrap; }
+    .user-info-text .name { color: white; font-size: 13px; font-weight: 600; }
+    .user-info-text .role { color: rgba(255,255,255,0.4); font-size: 11px; }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1; margin-left: var(--sidebar-width);
+      transition: var(--transition); min-height: 100vh;
+    }
+    .sidebar.collapsed ~ .main-content { margin-left: var(--sidebar-collapsed); }
+
+    /* HEADER */
+    .header {
+      height: var(--header-height); background: var(--bg-card);
+      border-bottom: 1px solid var(--border); display: flex;
+      align-items: center; justify-content: space-between;
+      padding: 0 30px; position: sticky; top: 0; z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .header-left { display: flex; align-items: center; gap: 20px; }
+    .toggle-sidebar {
+      width: 38px; height: 38px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: white; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); transition: var(--transition);
+    }
+    .toggle-sidebar:hover { background: var(--bg-main); color: var(--text-primary); }
+    .header-title h2 { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+    .header-title p { font-size: 12px; color: var(--text-secondary); }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .header-search { position: relative; }
+    .header-search input {
+      padding: 9px 15px 9px 38px; border: 1px solid var(--border);
+      border-radius: var(--radius-md); font-size: 13px; font-family: inherit;
+      width: 250px; transition: var(--transition); outline: none; background: var(--bg-main);
+    }
+    .header-search input:focus {
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1); background: white;
+    }
+    .header-search i {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      color: var(--text-light); font-size: 14px;
+    }
+    .header-btn {
+      width: 38px; height: 38px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: white; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); transition: var(--transition); position: relative;
+    }
+    .header-btn:hover { background: var(--bg-main); color: var(--accent); }
+    .header-btn .badge-dot {
+      position: absolute; top: 6px; right: 6px; width: 8px; height: 8px;
+      border-radius: 50%; background: var(--accent); border: 2px solid white;
+    }
+    .header-date {
+      font-size: 13px; color: var(--text-secondary); font-weight: 500;
+      padding: 8px 15px; background: var(--bg-main); border-radius: var(--radius-sm);
+    }
+    .header-date i { margin-right: 6px; color: var(--accent); }
+
+    /* PAGE CONTENT */
+    .page-content { padding: 25px 30px; }
+    .page-section { display: none; }
+    .page-section.active { display: block; animation: fadeInUp 0.4s ease; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* STATS CARDS */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-bottom: 25px; }
+    .stat-card {
+      background: var(--bg-card); border-radius: var(--radius-lg);
+      padding: 22px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .stat-card.red::before { background: linear-gradient(90deg, var(--accent), #ff6b81); }
+    .stat-card.green::before { background: linear-gradient(90deg, var(--success), #55efc4); }
+    .stat-card.blue::before { background: linear-gradient(90deg, var(--info), #a29bfe); }
+    .stat-card.orange::before { background: linear-gradient(90deg, #f39c12, #fdcb6e); }
+    .stat-card.purple::before { background: linear-gradient(90deg, #6c5ce7, #a29bfe); }
+    .stat-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+    .stat-card-header .label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
+    .stat-card-header .icon {
+      width: 42px; height: 42px; border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .stat-card.red .icon { background: rgba(233, 69, 96, 0.1); color: var(--accent); }
+    .stat-card.green .icon { background: rgba(0, 184, 148, 0.1); color: var(--success); }
+    .stat-card.blue .icon { background: rgba(116, 185, 255, 0.1); color: var(--info-dark); }
+    .stat-card.orange .icon { background: rgba(243, 156, 18, 0.1); color: #f39c12; }
+    .stat-card.purple .icon { background: rgba(108, 92, 231, 0.1); color: #6c5ce7; }
+    .stat-card .value { font-size: 28px; font-weight: 800; color: var(--text-primary); line-height: 1; margin-bottom: 6px; }
+    .stat-card .change { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .stat-card .change.up { color: var(--success); }
+    .stat-card .change.down { color: var(--danger); }
+
+    /* CARDS */
+    .card {
+      background: var(--bg-card); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
+      margin-bottom: 20px; overflow: hidden;
+    }
+    .card-header {
+      padding: 18px 22px; border-bottom: 1px solid var(--border-light);
+      display: flex; align-items: center; justify-content: space-between; background: var(--bg-card);
+    }
+    .card-header h3 { font-size: 16px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
+    .card-header h3 i { color: var(--accent); font-size: 18px; }
+    .card-body { padding: 22px; }
+    .card-footer {
+      padding: 15px 22px; border-top: 1px solid var(--border-light);
+      background: var(--bg-main); display: flex; align-items: center; justify-content: space-between;
+    }
+
+    /* GRIDS */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .grid-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+    .grid-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+
+    /* TABLES */
+    .table-container { overflow-x: auto; border-radius: var(--radius-md); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    table thead th {
+      background: var(--bg-main); padding: 12px 15px; text-align: left;
+      font-weight: 700; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--text-secondary);
+      border-bottom: 2px solid var(--border); white-space: nowrap; position: sticky; top: 0;
+    }
+    table tbody tr { border-bottom: 1px solid var(--border-light); transition: var(--transition); }
+    table tbody tr:hover { background: rgba(233, 69, 96, 0.02); }
+    table tbody td { padding: 12px 15px; color: var(--text-primary); vertical-align: middle; }
+    table tbody tr:last-child { border-bottom: none; }
+
+    /* BUTTONS */
+    .btn {
+      padding: 9px 18px; border: none; border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #ff6b81);
+      color: white; box-shadow: 0 3px 10px rgba(233, 69, 96, 0.3);
+    }
+    .btn-primary:hover { box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4); }
+    .btn-success {
+      background: linear-gradient(135deg, var(--success), #55efc4);
+      color: white; box-shadow: 0 3px 10px rgba(0, 184, 148, 0.3);
+    }
+    .btn-danger { background: linear-gradient(135deg, var(--danger), #e74c3c); color: white; }
+    .btn-secondary { background: var(--bg-main); color: var(--text-secondary); border: 1px solid var(--border); }
+    .btn-outline { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+    .btn-outline:hover { background: var(--accent); color: white; }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .btn-lg { padding: 13px 28px; font-size: 15px; }
+    .btn-icon { width: 36px; height: 36px; padding: 0; justify-content: center; }
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    /* FORMS */
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: var(--text-secondary); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .form-group label .required { color: var(--accent); }
+    .form-control {
+      width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); font-family: inherit;
+      font-size: 14px; color: var(--text-primary);
+      transition: var(--transition); outline: none; background: white;
+    }
+    .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1); }
+    .form-control:disabled { background: var(--bg-main); color: var(--text-light); }
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23636e72' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center; padding-right: 35px;
+    }
+    textarea.form-control { resize: vertical; min-height: 80px; }
+    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+    .form-inline { display: flex; align-items: flex-end; gap: 12px; }
+    .form-inline .form-group { margin-bottom: 0; flex: 1; }
+    .form-help { font-size: 11px; color: var(--text-light); margin-top: 4px; }
+
+    /* BADGES */
+    .badge {
+      padding: 4px 10px; border-radius: 20px; font-size: 11px;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .badge-success { background: rgba(0,184,148,0.1); color: var(--success); }
+    .badge-danger { background: rgba(231,76,60,0.1); color: var(--danger); }
+    .badge-warning { background: rgba(253,203,110,0.2); color: #e67e22; }
+    .badge-info { background: rgba(116,185,255,0.15); color: var(--info-dark); }
+    .badge-primary { background: rgba(233,69,96,0.1); color: var(--accent); }
+    .badge-secondary { background: var(--bg-main); color: var(--text-secondary); }
+    .badge i { font-size: 8px; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .status-dot.active { background: var(--success); }
+    .status-dot.inactive { background: var(--danger); }
+    .status-dot.pending { background: var(--warning-dark); }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center;
+      z-index: 5000; padding: 20px;
+    }
+    .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal {
+      background: white; border-radius: var(--radius-lg);
+      width: 100%; max-width: 700px; max-height: 90vh;
+      overflow-y: auto; box-shadow: var(--shadow-xl);
+      animation: slideUp 0.3s ease;
+    }
+    .modal.modal-lg { max-width: 900px; }
+    .modal.modal-xl { max-width: 1100px; }
+    .modal.modal-sm { max-width: 500px; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-header {
+      padding: 20px 25px; border-bottom: 1px solid var(--border-light);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    .modal-header h3 i { color: var(--accent); }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 50%; border: none;
+      background: var(--bg-main); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); transition: var(--transition);
+    }
+    .modal-close:hover { background: rgba(231,76,60,0.1); color: var(--danger); }
+    .modal-body { padding: 25px; }
+    .modal-footer {
+      padding: 15px 25px; border-top: 1px solid var(--border-light);
+      display: flex; justify-content: flex-end; gap: 10px; background: var(--bg-main);
+    }
+
+    /* TABS */
+    .tabs { display: flex; border-bottom: 2px solid var(--border-light); margin-bottom: 20px; gap: 5px; overflow-x: auto; }
+    .tab-btn {
+      padding: 10px 20px; border: none; background: transparent;
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      color: var(--text-secondary); cursor: pointer; transition: var(--transition);
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
+      white-space: nowrap; display: flex; align-items: center; gap: 8px;
+    }
+    .tab-btn:hover { color: var(--accent); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ALERTS */
+    .alert {
+      padding: 14px 18px; border-radius: var(--radius-md);
+      margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px;
+      font-size: 13px; border: 1px solid;
+    }
+    .alert i { margin-top: 2px; font-size: 16px; }
+    .alert-success { background: rgba(0,184,148,0.08); border-color: rgba(0,184,148,0.2); color: var(--success-dark); }
+    .alert-danger { background: rgba(231,76,60,0.08); border-color: rgba(231,76,60,0.2); color: var(--danger-dark); }
+    .alert-warning { background: rgba(253,203,110,0.15); border-color: rgba(253,203,110,0.3); color: #d35400; }
+    .alert-info { background: rgba(116,185,255,0.1); border-color: rgba(116,185,255,0.2); color: var(--info-dark); }
+
+    /* PROGRESS */
+    .progress-bar { height: 8px; background: var(--bg-main); border-radius: 10px; overflow: hidden; }
+    .progress-bar .fill { height: 100%; border-radius: 10px; transition: width 0.8s ease; }
+    .progress-bar .fill.red { background: linear-gradient(90deg, var(--accent), #ff6b81); }
+    .progress-bar .fill.green { background: linear-gradient(90deg, var(--success), #55efc4); }
+    .progress-bar .fill.blue { background: linear-gradient(90deg, var(--info), #a29bfe); }
+
+    /* FACTURA */
+    .factura-preview {
+      background: white; border: 2px solid #333; padding: 30px;
+      max-width: 800px; margin: 0 auto; font-size: 13px;
+    }
+    .factura-header-section {
+      display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px;
+      border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 15px;
+    }
+    .factura-tipo {
+      text-align: center; border: 3px solid #333; padding: 10px 20px;
+      font-size: 48px; font-weight: 900; line-height: 1; align-self: start;
+    }
+    .factura-tipo small { display: block; font-size: 10px; font-weight: 600; margin-top: 5px; }
+    .factura-datos-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+    .factura-datos-table td { padding: 4px 8px; border: 1px solid #ccc; font-size: 12px; }
+    .factura-datos-table .label-cell { font-weight: 700; background: #f5f5f5; width: 30%; }
+    .factura-items-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+    .factura-items-table th {
+      background: #333; color: white; padding: 8px 10px;
+      text-align: left; font-size: 11px; text-transform: uppercase;
+    }
+    .factura-items-table td { padding: 8px 10px; border-bottom: 1px solid #ddd; font-size: 12px; }
+    .factura-totales { display: flex; justify-content: flex-end; }
+    .factura-totales table { width: 300px; }
+    .factura-totales td { padding: 6px 10px; border: 1px solid #ccc; }
+    .factura-totales .total-row { background: #333; color: white; font-weight: 700; font-size: 16px; }
+
+    /* TOAST */
+    .toast-container {
+      position: fixed; top: 20px; right: 20px; z-index: 9999;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .toast {
+      background: white; border-radius: var(--radius-md);
+      padding: 15px 20px; box-shadow: var(--shadow-lg);
+      display: flex; align-items: center; gap: 12px;
+      min-width: 320px; animation: toastIn 0.4s ease; border-left: 4px solid;
+    }
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.warning { border-left-color: var(--warning-dark); }
+    .toast.info { border-left-color: var(--info-dark); }
+    .toast i { font-size: 20px; }
+    .toast.success i { color: var(--success); }
+    .toast.error i { color: var(--danger); }
+    .toast.warning i { color: var(--warning-dark); }
+    .toast.info i { color: var(--info-dark); }
+    .toast .toast-text { flex: 1; }
+    .toast .toast-text strong { display: block; font-size: 14px; }
+    .toast .toast-text span { font-size: 12px; color: var(--text-secondary); }
+    .toast-close { background: none; border: none; cursor: pointer; color: var(--text-light); padding: 5px; }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* EMPTY STATE */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-light); }
+    .empty-state i { font-size: 64px; margin-bottom: 20px; opacity: 0.3; }
+    .empty-state h3 { font-size: 18px; color: var(--text-secondary); margin-bottom: 8px; }
+    .empty-state p { font-size: 13px; max-width: 400px; margin: 0 auto 20px; }
+
+    /* PAGINATION */
+    .pagination { display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 20px; }
+    .pagination button {
+      width: 36px; height: 36px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); background: white; cursor: pointer;
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      color: var(--text-secondary); transition: var(--transition);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pagination button:hover { border-color: var(--accent); color: var(--accent); }
+    .pagination button.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    /* CHART */
+    .chart-area {
+      height: 300px; background: linear-gradient(180deg, rgba(233,69,96,0.03) 0%, rgba(233,69,96,0.08) 100%);
+      border-radius: var(--radius-md); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; position: relative; overflow: hidden;
+    }
+    .chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 200px; padding: 0 20px; }
+    .chart-bar {
+      width: 35px; border-radius: 4px 4px 0 0;
+      transition: all 0.6s ease; position: relative; cursor: pointer;
+    }
+    .chart-bar:hover { opacity: 0.8; }
+    .chart-bar .chart-value {
+      position: absolute; top: -22px; left: 50%; transform: translateX(-50%);
+      font-size: 10px; font-weight: 700; color: var(--text-secondary); white-space: nowrap;
+    }
+    .chart-bar .chart-label {
+      position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+      font-size: 10px; color: var(--text-light); white-space: nowrap;
+    }
+
+    /* PRINT */
+    @media print {
+      body * { visibility: hidden; }
+      .factura-preview, .factura-preview * { visibility: visible; }
+      .factura-preview { position: absolute; left: 0; top: 0; width: 100%; border: none; }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) { .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.mobile-open { transform: translateX(0); }
+      .main-content { margin-left: 0 !important; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .grid-2, .grid-3, .grid-4, .grid-2-1, .grid-1-2 { grid-template-columns: 1fr; }
+      .header-search { display: none; }
+      .page-content { padding: 15px; }
+    }
+
+    /* QUICK ACTIONS */
+    .quick-actions { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 25px; }
+    .quick-action-card {
+      background: white; border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); padding: 18px; text-align: center;
+      cursor: pointer; transition: var(--transition);
+    }
+    .quick-action-card:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .quick-action-card i { font-size: 28px; color: var(--accent); margin-bottom: 10px; }
+    .quick-action-card span { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); }
+
+    /* ACTIVITY */
+    .activity-list { list-style: none; }
+    .activity-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-icon {
+      width: 36px; height: 36px; min-width: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 14px;
+    }
+    .activity-icon.green { background: rgba(0,184,148,0.1); color: var(--success); }
+    .activity-icon.red { background: rgba(233,69,96,0.1); color: var(--accent); }
+    .activity-icon.blue { background: rgba(116,185,255,0.1); color: var(--info-dark); }
+    .activity-icon.orange { background: rgba(243,156,18,0.1); color: #f39c12; }
+    .activity-content { flex: 1; }
+    .activity-content .title { font-size: 13px; font-weight: 600; }
+    .activity-content .desc { font-size: 12px; color: var(--text-secondary); }
+    .activity-content .time { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+    /* HELPERS */
+    .text-right { text-align: right; } .text-center { text-align: center; }
+    .text-accent { color: var(--accent); } .text-success { color: var(--success); }
+    .text-danger { color: var(--danger); } .text-muted { color: var(--text-light); }
+    .text-bold { font-weight: 700; } .text-sm { font-size: 12px; } .text-lg { font-size: 18px; }
+    .mb-0 { margin-bottom: 0; } .mb-10 { margin-bottom: 10px; } .mb-20 { margin-bottom: 20px; }
+    .mt-10 { margin-top: 10px; } .mt-20 { margin-top: 20px; }
+    .d-flex { display: flex; } .align-center { align-items: center; }
+    .gap-10 { gap: 10px; } .gap-20 { gap: 20px; } .flex-1 { flex: 1; } .w-100 { width: 100%; }
+
+    /* TOOLBAR */
+    .toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+    .toolbar-filters { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .filter-select {
+      padding: 8px 30px 8px 12px; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); font-family: inherit; font-size: 13px;
+      background: white; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23636e72' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center; outline: none; cursor: pointer;
+    }
+    .filter-select:focus { border-color: var(--accent); }
+    .search-input {
+      padding: 8px 12px 8px 35px; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); font-family: inherit; font-size: 13px;
+      outline: none; background: white; width: 220px;
+    }
+    .search-input:focus { border-color: var(--accent); }
+
+    /* SIDEBAR SUBMENU */
+    .nav-item-parent { flex-wrap: wrap; }
+    .nav-submenu { width: 100%; padding-left: 32px; display: none; }
+    .nav-submenu.open { display: block; }
+    .nav-submenu .nav-item { padding: 8px 15px; font-size: 12px; }
+
+    /* HELP ACCORDION */
+    .help-section { margin-bottom: 15px; }
+    .help-question {
+      background: var(--bg-main); border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm); padding: 12px 16px;
+      font-weight: 600; font-size: 13px; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: var(--transition);
+    }
+    .help-question:hover { background: var(--border-light); }
+    .help-answer {
+      padding: 12px 16px; font-size: 13px; color: var(--text-secondary);
+      border: 1px solid var(--border-light); border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      display: none; line-height: 1.8;
+    }
+    .help-answer.open { display: block; }
+
+    /* KPI */
+    .kpi-row { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+    .kpi-item {
+      flex: 1; min-width: 140px; text-align: center;
+      padding: 15px; background: var(--bg-main); border-radius: var(--radius-md);
+    }
+    .kpi-item .kpi-value { font-size: 24px; font-weight: 800; color: var(--text-primary); }
+    .kpi-item .kpi-label {
+      font-size: 11px; color: var(--text-secondary);
+      text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px;
+    }
+
+    /* TROPA TAGS */
+    .tropa-tag { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+    .tropa-tag.bovino { background: #dfe6e9; color: #2d3436; }
+    .tropa-tag.porcino { background: #ffeaa7; color: #d35400; }
+    .tropa-tag.ovino { background: #dfe6e9; color: #636e72; }
+
+    /* MONEY */
+    .money { font-family: 'Courier New', monospace; font-weight: 700; }
+    .money.positive { color: var(--success); }
+    .money.negative { color: var(--danger); }
+
+    /* MODAL CONTENT STYLES */
+    .modal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 15px; }
+    .modal-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 15px; }
+    .modal-section { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-light); }
+    .modal-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .modal-section h4 { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .modal-section h4 i { color: var(--accent); }
+    .items-table-container { max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+    .items-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .items-table th { background: var(--bg-main); padding: 8px 10px; text-align: left; font-weight: 600; position: sticky; top: 0; }
+    .items-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-light); }
+    .items-table .action-cell { text-align: center; }
+    .items-table .action-cell button { padding: 4px 8px; font-size: 11px; }
+    .items-summary { background: var(--bg-main); padding: 15px; border-radius: var(--radius-sm); margin-top: 15px; }
+    .items-summary .row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; }
+    .items-summary .row.total { font-weight: 700; font-size: 16px; border-top: 2px solid var(--border); margin-top: 10px; padding-top: 10px; color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen">
+    <div class="login-container">
+      <div class="login-logo">
+        <div class="icon-circle"><i class="fas fa-drumstick-bite"></i></div>
+        <h1>MATARIFE PRO</h1>
+        <p>Sistema Integral de Gestión</p>
+      </div>
+      <div class="login-error" id="loginError">Usuario o contraseña incorrectos</div>
+      <div class="login-field">
+        <label>Usuario</label>
+        <div class="input-wrap">
+          <i class="fas fa-user"></i>
+          <input type="text" id="loginUser" placeholder="Ingrese su usuario" onkeypress="if(event.key==='Enter')handleLogin()">
+        </div>
+      </div>
+      <div class="login-field">
+        <label>Contraseña</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="loginPass" placeholder="Ingrese su contraseña" onkeypress="if(event.key==='Enter')handleLogin()">
+        </div>
+      </div>
+      <button class="login-btn" onclick="handleLogin()">
+        <i class="fas fa-sign-in-alt"></i> Ingresar al Sistema
+      </button>
+      <div class="login-info">
+        <p><strong>Demo:</strong> admin / admin123</p>
+        <p>Operador: operador / oper123</p>
+        <p>Consulta: consulta / cons123</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="appContainer">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon"><i class="fas fa-drumstick-bite"></i></div>
+        <div class="logo-text">
+          <h2>MATARIFE</h2>
+          <small>Sistema Integral v2.0</small>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Principal</div>
+        <div class="nav-item active" data-section="dashboard" onclick="navigateTo('dashboard')">
+          <i class="fas fa-chart-line"></i><span class="nav-text">Dashboard</span>
+        </div>
+        
+        <div class="nav-section-title">Operaciones</div>
+        <div class="nav-item" data-section="hacienda" onclick="navigateTo('hacienda')">
+          <i class="fas fa-cow"></i><span class="nav-text">Hacienda / Tropas</span><span class="nav-badge">12</span>
+        </div>
+        <div class="nav-item" data-section="faena" onclick="navigateTo('faena')">
+          <i class="fas fa-industry"></i><span class="nav-text">Faena / Producción</span>
+        </div>
+        <div class="nav-item" data-section="stock" onclick="navigateTo('stock')">
+          <i class="fas fa-warehouse"></i><span class="nav-text">Stock / Inventario</span><span class="nav-badge">5</span>
+        </div>
+        <div class="nav-item" data-section="cortes" onclick="navigateTo('cortes')">
+          <i class="fas fa-knife-kitchen"></i><span class="nav-text">Cortes y Desposte</span>
+        </div>
+        
+        <div class="nav-section-title">Comercial</div>
+        <div class="nav-item" data-section="ventas" onclick="navigateTo('ventas')">
+          <i class="fas fa-shopping-cart"></i><span class="nav-text">Ventas / Pedidos</span>
+        </div>
+        <div class="nav-item" data-section="facturacion" onclick="navigateTo('facturacion')">
+          <i class="fas fa-file-invoice-dollar"></i><span class="nav-text">Facturación</span>
+        </div>
+        <div class="nav-item" data-section="clientes" onclick="navigateTo('clientes')">
+          <i class="fas fa-users"></i><span class="nav-text">Clientes</span>
+        </div>
+        <div class="nav-item" data-section="proveedores" onclick="navigateTo('proveedores')">
+          <i class="fas fa-truck"></i><span class="nav-text">Proveedores</span>
+        </div>
+        <div class="nav-item" data-section="precios" onclick="navigateTo('precios')">
+          <i class="fas fa-tags"></i><span class="nav-text">Lista de Precios</span>
+        </div>
+        
+        <div class="nav-section-title">Finanzas</div>
+        <div class="nav-item" data-section="contabilidad" onclick="navigateTo('contabilidad')">
+          <i class="fas fa-calculator"></i><span class="nav-text">Contabilidad</span>
+        </div>
+        <div class="nav-item" data-section="cuentascorrientes" onclick="navigateTo('cuentascorrientes')">
+          <i class="fas fa-exchange-alt"></i><span class="nav-text">Cuentas Corrientes</span>
+        </div>
+        <div class="nav-item" data-section="costos" onclick="navigateTo('costos')">
+          <i class="fas fa-percentage"></i><span class="nav-text">Costos / Márgenes</span>
+        </div>
+        
+        <div class="nav-section-title">RRHH & Regulatorio</div>
+        <div class="nav-item" data-section="empleados" onclick="navigateTo('empleados')">
+          <i class="fas fa-user-tie"></i><span class="nav-text">Empleados / RRHH</span>
+        </div>
+        <div class="nav-item" data-section="senasa" onclick="navigateTo('senasa')">
+          <i class="fas fa-file-medical-alt"></i><span class="nav-text">SENASA / Trazabilidad</span>
+        </div>
+        
+        <div class="nav-section-title">Reportes</div>
+        <div class="nav-item" data-section="reportes" onclick="navigateTo('reportes')">
+          <i class="fas fa-chart-bar"></i><span class="nav-text">Reportes / Estadísticas</span>
+        </div>
+        <div class="nav-item" data-section="auditoria" onclick="navigateTo('auditoria')">
+          <i class="fas fa-shield-alt"></i><span class="nav-text">Auditoría</span>
+        </div>
+        
+        <div class="nav-section-title">Sistema</div>
+        <div class="nav-item" data-section="configuracion" onclick="navigateTo('configuracion')">
+          <i class="fas fa-cog"></i><span class="nav-text">Configuración</span>
+        </div>
+        <div class="nav-item" data-section="ayuda" onclick="navigateTo('ayuda')">
+          <i class="fas fa-question-circle"></i><span class="nav-text">Ayuda / Manual</span>
+        </div>
+        <div class="nav-item" onclick="handleLogout()" style="color: var(--danger);">
+          <i class="fas fa-sign-out-alt"></i><span class="nav-text">Cerrar Sesión</span>
+        </div>
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-avatar" id="userAvatar">AD</div>
+        <div class="user-info-text">
+          <div class="name" id="userName">Administrador</div>
+          <div class="role" id="userRole">Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <!-- HEADER -->
+      <header class="header">
+        <div class="header-left">
+          <button class="toggle-sidebar" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+          <div class="header-title">
+            <h2 id="pageTitle">Dashboard</h2>
+            <p id="pageSubtitle">Panel principal de control</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar...">
+          </div>
+          <button class="header-btn" onclick="showNotifications()" title="Notificaciones">
+            <i class="fas fa-bell"></i><span class="badge-dot"></span>
+          </button>
+          <button class="header-btn" onclick="toggleFullscreen()" title="Pantalla completa">
+            <i class="fas fa-expand"></i>
+          </button>
+          <div class="header-date">
+            <i class="far fa-calendar"></i><span id="currentDate"></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+        
+        <!-- DASHBOARD -->
+        <section id="section-dashboard" class="page-section active">
+          <div class="stats-grid">
+            <div class="stat-card red">
+              <div class="stat-card-header">
+                <span class="label">Cabezas en Stock</span>
+                <div class="icon"><i class="fas fa-cow"></i></div>
+              </div>
+              <div class="value">1,247</div>
+              <div class="change up"><i class="fas fa-arrow-up"></i> 8.2% vs mes anterior</div>
+            </div>
+            <div class="stat-card green">
+              <div class="stat-card-header">
+                <span class="label">Faena del Mes</span>
+                <div class="icon"><i class="fas fa-industry"></i></div>
+              </div>
+              <div class="value">3,456</div>
+              <div class="change up"><i class="fas fa-arrow-up"></i> 12.5% vs mes anterior</div>
+            </div>
+            <div class="stat-card blue">
+              <div class="stat-card-header">
+                <span class="label">Ventas del Mes</span>
+                <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+              </div>
+              <div class="value">$84.2M</div>
+              <div class="change up"><i class="fas fa-arrow-up"></i> 15.3% vs mes anterior</div>
+            </div>
+            <div class="stat-card orange">
+              <div class="stat-card-header">
+                <span class="label">Ctas. x Cobrar</span>
+                <div class="icon"><i class="fas fa-hand-holding-usd"></i></div>
+              </div>
+              <div class="value">$12.8M</div>
+              <div class="change down"><i class="fas fa-arrow-down"></i> 3.1% vs mes anterior</div>
+            </div>
+          </div>
+
+          <div class="grid-2-1">
+            <div>
+              <div class="card">
+                <div class="card-header">
+                  <h3><i class="fas fa-chart-bar"></i> Faena Mensual (Cabezas)</h3>
+                  <div class="btn-group">
+                    <button class="btn btn-sm btn-secondary">Semanal</button>
+                    <button class="btn btn-sm btn-primary">Mensual</button>
+                    <button class="btn btn-sm btn-secondary">Anual</button>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="chart-area">
+                    <div class="chart-bars" id="dashChart"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3><i class="fas fa-history"></i> Actividad Reciente</h3>
+                </div>
+                <div class="card-body">
+                  <ul class="activity-list" id="activityList"></ul>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="card">
+                <div class="card-header">
+                  <h3><i class="fas fa-cow"></i> Últimas Tropas</h3>
+                  <button class="btn btn-sm btn-outline" onclick="navigateTo('hacienda')">Ver todo</button>
+                </div>
+                <div class="card-body">
+                  <div class="table-container">
+                    <table><thead><tr><th>Tropa</th><th>Proveedor</th><th>Cabezas</th><th>Fecha</th><th>Estado</th></tr></thead><tbody id="dashTropasTable"></tbody></table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3><i class="fas fa-file-invoice"></i> Últimas Facturas</h3>
+                  <button class="btn btn-sm btn-outline" onclick="navigateTo('facturacion')">Ver todo</button>
+                </div>
+                <div class="card-body">
+                  <div class="table-container">
+                    <table><thead><tr><th>Nº</th><th>Cliente</th><th>Total</th><th>Estado</th></tr></thead><tbody id="dashFacturasTable"></tbody></table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3><i class="fas fa-exclamation-triangle"></i> Alertas</h3>
+                </div>
+                <div class="card-body">
+                  <div id="dashAlerts"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+            <div class="quick-action-card" onclick="openModal('nuevaTropa')"><i class="fas fa-plus-circle"></i><span>Nueva Tropa</span></div>
+            <div class="quick-action-card" onclick="openModal('nuevaFaena')"><i class="fas fa-industry"></i><span>Registrar Faena</span></div>
+            <div class="quick-action-card" onclick="openModal('nuevaVenta')"><i class="fas fa-shopping-cart"></i><span>Nueva Venta</span></div>
+            <div class="quick-action-card" onclick="openModal('nuevaFactura')"><i class="fas fa-file-invoice"></i><span>Nueva Factura</span></div>
+            <div class="quick-action-card" onclick="openModal('nuevoCliente')"><i class="fas fa-user-plus"></i><span>Nuevo Cliente</span></div>
+            <div class="quick-action-card" onclick="navigateTo('stock')"><i class="fas fa-boxes"></i><span>Ver Stock</span></div>
+            <div class="quick-action-card" onclick="navigateTo('senasa')"><i class="fas fa-route"></i><span>Trazabilidad</span></div>
+            <div class="quick-action-card" onclick="navigateTo('reportes')"><i class="fas fa-chart-pie"></i><span>Reportes</span></div>
+          </div>
+        </section>
+
+        <!-- HACIENDA / TROPAS -->
+        <section id="section-hacienda" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select" id="haciendaFilterTipo" onchange="renderTropas()">
+                <option value="">Todas las especies</option>
+                <option value="bovino">Bovino</option>
+                <option value="porcino">Porcino</option>
+                <option value="ovino">Ovino</option>
+              </select>
+              <select class="filter-select" id="haciendaFilterEstado" onchange="renderTropas()">
+                <option value="">Todos los estados</option>
+                <option value="corral">En Corral</option>
+                <option value="faenada">Faenada</option>
+                <option value="transito">En Tránsito</option>
+              </select>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="openModal('nuevaTropa')"><i class="fas fa-plus"></i> Nueva Tropa</button>
+              <button class="btn btn-secondary" onclick="exportarHacienda()"><i class="fas fa-file-excel"></i> Exportar</button>
+            </div>
+          </div>
+
+          <div class="kpi-row">
+            <div class="kpi-item"><div class="kpi-value">856</div><div class="kpi-label">Total en Corral<br><small>Bovinos: 720 | Porcinos: 136</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">12</div><div class="kpi-label">Tropas Activas<br><small>Pendientes de faena</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">342,400</div><div class="kpi-label">Kg Vivo Estimado<br><small>Promedio: 400kg/cab</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">3</div><div class="kpi-label">En Tránsito<br><small>Llegada estimada: hoy</small></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-list"></i> Registro de Tropas</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nº Tropa</th><th>Fecha Ingreso</th><th>Proveedor</th><th>Especie</th>
+                      <th>Cabezas</th><th>Kg Vivo Total</th><th>Kg Promedio</th><th>DTE / SENASA</th>
+                      <th>Corral</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tropasTable"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer">
+              <span class="text-muted">Mostrando registros de tropas activas</span>
+              <div class="pagination">
+                <button><i class="fas fa-chevron-left"></i></button>
+                <button class="active">1</button><button>2</button><button>3</button>
+                <button><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAENA / PRODUCCIÓN -->
+        <section id="section-faena" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select">
+                <option>Todos los turnos</option>
+                <option>Turno Mañana</option>
+                <option>Turno Tarde</option>
+              </select>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="openModal('nuevaFaena')"><i class="fas fa-plus"></i> Registrar Faena</button>
+              <button class="btn btn-success" onclick="openModal('partesFaena')"><i class="fas fa-clipboard-list"></i> Parte de Faena</button>
+            </div>
+          </div>
+
+          <div class="kpi-row">
+            <div class="kpi-item"><div class="kpi-value">124</div><div class="kpi-label">Faenadas Hoy<br><small>Objetivo: 150 cab</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">56.2%</div><div class="kpi-label">Rendimiento Prom.<br><small>Óptimo</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">28,450</div><div class="kpi-label">Kg Producidos<br><small>Media res + Desposte</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">3</div><div class="kpi-label">Decomisos<br><small>2.4% - Normal</small></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-industry"></i> Registro de Faena Diaria</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nº Orden</th><th>Fecha</th><th>Tropa</th><th>Especie</th><th>Cabezas</th>
+                      <th>Kg Vivo</th><th>Kg Res</th><th>Rinde %</th><th>Decomisos</th>
+                      <th>Inspector</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="faenaTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STOCK / INVENTARIO -->
+        <section id="section-stock" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select"><option>Todas las cámaras</option><option>Cámara 1 - Bovino</option><option>Cámara 2 - Porcino</option><option>Cámara 3 - Menudencias</option><option>Cámara 4 - Congelado</option></select>
+              <select class="filter-select"><option>Todos los cortes</option><option>Media Res</option><option>Cuartos</option><option>Cortes</option><option>Menudencias</option></select>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="openModal('ingresoStock')"><i class="fas fa-plus"></i> Ingreso Manual</button>
+              <button class="btn btn-secondary"><i class="fas fa-file-excel"></i> Exportar</button>
+            </div>
+          </div>
+
+          <div class="kpi-row">
+            <div class="kpi-item"><div class="kpi-value">156,780</div><div class="kpi-label">Kg en Cámaras<br><small>Cap. utilizada: 72%</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">342</div><div class="kpi-label">Medias Reses<br><small>Bovino: 280 | Porcino: 62</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">48</div><div class="kpi-label">Productos<br><small>Items diferentes en stock</small></div></div>
+            <div class="kpi-item"><div class="kpi-value text-danger">5</div><div class="kpi-label">Stock Bajo<br><small>Productos bajo mínimo</small></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-warehouse"></i> Inventario Actual</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Código</th><th>Producto / Corte</th><th>Categoría</th><th>Cámara</th>
+                      <th>Stock Kg</th><th>Stock Mín.</th><th>Precio/Kg</th><th>Valor Total</th>
+                      <th>Últ. Mov.</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="stockTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CORTES Y DESPOSTE -->
+        <section id="section-cortes" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select"><option>Bovino</option><option>Porcino</option><option>Ovino</option></select>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('nuevoDesposte')"><i class="fas fa-plus"></i> Registrar Desposte</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-knife-kitchen"></i> Tabla de Cortes - Bovino</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead><tr><th>Código</th><th>Corte</th><th>Categoría</th><th>Rinde Estimado %</th><th>Precio/Kg</th><th>Stock Actual</th></tr></thead>
+                  <tbody id="cortesTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VENTAS -->
+        <section id="section-ventas" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select"><option value="">Todos los estados</option><option>Pendiente</option><option>Entregado</option><option>Cancelado</option></select>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('nuevaVenta')"><i class="fas fa-plus"></i> Nueva Venta</button>
+          </div>
+
+          <div class="kpi-row">
+            <div class="kpi-item"><div class="kpi-value">$4.8M</div><div class="kpi-label">Ventas Hoy<br><small>18 operaciones</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">12,340</div><div class="kpi-label">Kg Vendidos Hoy<br><small>Normal</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">7</div><div class="kpi-label">Pendientes Entrega<br><small>Programadas para mañana</small></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-shopping-cart"></i> Registro de Ventas</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nº Venta</th><th>Fecha</th><th>Cliente</th><th>Items</th><th>Kg Total</th>
+                      <th>Subtotal</th><th>IVA</th><th>Total</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ventasTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FACTURACIÓN -->
+        <section id="section-facturacion" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select" id="factTipo" onchange="renderFacturas()">
+                <option value="">Todos los tipos</option>
+                <option value="A">Factura A</option><option value="B">Factura B</option>
+                <option value="C">Factura C</option><option value="E">Factura E (Exportación)</option>
+                <option value="NCA">Nota Crédito A</option><option value="NCB">Nota Crédito B</option>
+                <option value="NDA">Nota Débito A</option>
+              </select>
+              <select class="filter-select" onchange="renderFacturas()">
+                <option value="">Todos los estados</option><option>Emitida</option><option>Pagada</option><option>Vencida</option><option>Anulada</option>
+              </select>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="openModal('nuevaFactura')"><i class="fas fa-plus"></i> Nueva Factura</button>
+              <button class="btn btn-secondary"><i class="fas fa-file-pdf"></i> Libro IVA</button>
+            </div>
+          </div>
+
+          <div class="kpi-row">
+            <div class="kpi-item"><div class="kpi-value">$84.2M</div><div class="kpi-label">Facturado Mes<br><small>152 comprobantes</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">$17.7M</div><div class="kpi-label">IVA Débito Fiscal<br><small>21% sobre gravado</small></div></div>
+            <div class="kpi-item"><div class="kpi-value">$12.8M</div><div class="kpi-label">Pendientes Cobro<br><small>23 facturas</small></div></div>
+            <div class="kpi-item"><div class="kpi-value text-danger">$3.2M</div><div class="kpi-label">Vencidas<br><small>8 facturas</small></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-file-invoice"></i> Comprobantes Emitidos</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Tipo</th><th>Número</th><th>Fecha</th><th>Cliente</th><th>CUIT</th>
+                      <th>Neto Gravado</th><th>IVA</th><th>Total</th><th>CAE</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="facturasTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CLIENTES -->
+        <section id="section-clientes" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select"><option>Todos</option><option>Carnicerías</option><option>Frigoríficos</option><option>Supermercados</option><option>Distribuidores</option></select>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('nuevoCliente')"><i class="fas fa-plus"></i> Nuevo Cliente</button>
+            <button class="btn btn-secondary"><i class="fas fa-file-excel"></i> Exportar</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-users"></i> Listado de Clientes</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Código</th><th>Razón Social</th><th>CUIT</th><th>Tipo IVA</th><th>Categoría</th>
+                      <th>Teléfono</th><th>Localidad</th><th>Saldo CC</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="clientesTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PROVEEDORES -->
+        <section id="section-proveedores" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select"><option>Todos</option><option>Ganaderos</option><option>Consignatarios</option><option>Feed Lot</option></select>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('nuevoProveedor')"><i class="fas fa-plus"></i> Nuevo Proveedor</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-truck"></i> Listado de Proveedores</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Código</th><th>Razón Social</th><th>CUIT</th><th>RENSPA</th><th>Tipo</th>
+                      <th>Provincia</th><th>Teléfono</th><th>Saldo a Pagar</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="proveedoresTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRECIOS -->
+        <section id="section-precios" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select"><option>Lista General</option><option>Carnicerías</option><option>Supermercados</option><option>Mayoristas</option></select>
+            </div>
+            <div class="btn-group">
+              <button class="btn btn-primary" onclick="openModal('editarPrecios')"><i class="fas fa-edit"></i> Actualizar Precios</button>
+              <button class="btn btn-secondary"><i class="fas fa-print"></i> Imprimir Lista</button>
+            </div>
+          </div>
+
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>Última actualización de precios:</strong> 15/01/2025. 
+              <strong>Referencia Liniers:</strong> Novillo $1,850/kg vivo.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-tags"></i> Lista de Precios Vigente</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Código</th><th>Producto</th><th>Categoría</th><th>Precio x Kg (s/IVA)</th>
+                      <th>IVA %</th><th>Precio Final</th><th>Últ. Actualización</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="preciosTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONTABILIDAD -->
+        <section id="section-contabilidad" class="page-section">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(this,'contab-resumen')"><i class="fas fa-chart-pie"></i> Resumen</button>
+            <button class="tab-btn" onclick="switchTab(this,'contab-ingresos')"><i class="fas fa-arrow-down"></i> Ingresos</button>
+            <button class="tab-btn" onclick="switchTab(this,'contab-egresos')"><i class="fas fa-arrow-up"></i> Egresos</button>
+            <button class="tab-btn" onclick="switchTab(this,'contab-impuestos')"><i class="fas fa-landmark"></i> Impuestos</button>
+            <button class="tab-btn" onclick="switchTab(this,'contab-bancos')"><i class="fas fa-building-columns"></i> Bancos</button>
+          </div>
+
+          <div id="contab-resumen" class="tab-content active">
+            <div class="kpi-row">
+              <div class="kpi-item"><div class="kpi-value text-success">$84.2M</div><div class="kpi-label">Ingresos Mes</div></div>
+              <div class="kpi-item"><div class="kpi-value text-danger">$67.8M</div><div class="kpi-label">Egresos Mes</div></div>
+              <div class="kpi-item"><div class="kpi-value">$16.4M</div><div class="kpi-label">Resultado<br><small>Margen: 19.5%</small></div></div>
+              <div class="kpi-item"><div class="kpi-value">$8.9M</div><div class="kpi-label">Caja Disponible</div></div>
+            </div>
+            <div class="card"><div class="card-body"><p class="text-muted text-center">Módulo de ingresos detallado</p></div></div>
+            <div class="card"><div class="card-body"><p class="text-muted text-center">Módulo de egresos detallado</p></div></div>
+            <div class="card"><div class="card-body"><p class="text-muted text-center">Módulo impositivo - IVA, IIBB, Ganancias</p></div></div>
+            <div class="card"><div class="card-body"><p class="text-muted text-center">Conciliación bancaria</p></div></div>
+          </div>
+          <div id="contab-ingresos" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Detalle de ingresos por período</p></div></div></div>
+          <div id="contab-egresos" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Detalle de egresos por categoría</p></div></div></div>
+          <div id="contab-impuestos" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Liquidación de impuestos</p></div></div></div>
+          <div id="contab-bancos" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Conciliación de cuentas bancarias</p></div></div></div>
+        </section>
+
+        <!-- CUENTAS CORRIENTES -->
+        <section id="section-cuentascorrientes" class="page-section">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(this,'cc-clientes')"><i class="fas fa-users"></i> Clientes</button>
+            <button class="tab-btn" onclick="switchTab(this,'cc-proveedores')"><i class="fas fa-truck"></i> Proveedores</button>
+          </div>
+
+          <div id="cc-clientes" class="tab-content active">
+            <div class="toolbar">
+              <button class="btn btn-primary btn-sm" onclick="openModal('registrarCobro')"><i class="fas fa-plus"></i> Registrar Cobro</button>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>Saldos de Clientes</h3></div>
+              <div class="card-body">
+                <div class="table-container">
+                  <table>
+                    <thead><tr><th>Cliente</th><th>CUIT</th><th>Facturado</th><th>Pagado</th><th>Saldo</th><th>Vencido</th><th>Acciones</th></tr></thead>
+                    <tbody id="ccClientesTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="cc-proveedores" class="tab-content">
+            <div class="card">
+              <div class="card-header"><h3>Saldos con Proveedores</h3></div>
+              <div class="card-body">
+                <p class="text-muted text-center">Saldos con proveedores de hacienda</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- COSTOS / MÁRGENES -->
+        <section id="section-costos" class="page-section">
+          <div class="kpi-row">
+            <div class="kpi-item"><div class="kpi-value">$1,850</div><div class="kpi-label">Costo x Kg Vivo</div></div>
+            <div class="kpi-item"><div class="kpi-value">$3,294</div><div class="kpi-label">Costo x Kg Res</div></div>
+            <div class="kpi-item"><div class="kpi-value">$4,200</div><div class="kpi-label">Precio Vta Prom.</div></div>
+            <div class="kpi-item"><div class="kpi-value">21.6%</div><div class="kpi-label">Margen Bruto<br><small>Sobre precio venta</small></div></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-chart-pie"></i> Análisis de Costos y Márgenes</h3></div>
+            <div class="card-body">
+              <p class="text-muted mb-20"><small>El cálculo incluye: Compra de hacienda + Faena + Frío + Personal + Logística + Impuestos</small></p>
+              <div class="table-container">
+                <table>
+                  <thead><tr><th>Concepto</th><th>Costo/Kg</th><th>% del Total</th><th>Monto Mensual</th></tr></thead>
+                  <tbody>
+                    <tr><td><strong>Compra de hacienda</strong></td><td class="money">$1,850.00</td><td>56.2%</td><td class="money">$56,240,000</td></tr>
+                    <tr><td>Costo de faena</td><td class="money">$420.00</td><td>12.7%</td><td class="money">$12,768,000</td></tr>
+                    <tr><td>Frío y conservación</td><td class="money">$180.00</td><td>5.5%</td><td class="money">$5,472,000</td></tr>
+                    <tr><td>Personal</td><td class="money">$350.00</td><td>10.6%</td><td class="money">$10,640,000</td></tr>
+                    <tr><td>Logística y transporte</td><td class="money">$220.00</td><td>6.7%</td><td class="money">$6,688,000</td></tr>
+                    <tr><td>Impuestos y tasas</td><td class="money">$274.00</td><td>8.3%</td><td class="money">$8,328,000</td></tr>
+                    <tr style="background:var(--bg-main);font-weight:700"><td><strong>TOTAL COSTO</strong></td><td class="money">$3,294.00</td><td>100%</td><td class="money">$67,836,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EMPLEADOS -->
+        <section id="section-empleados" class="page-section">
+          <div class="toolbar">
+            <div class="toolbar-filters">
+              <select class="filter-select"><option>Todos los sectores</option><option>Faena</option><option>Desposte</option><option>Cámaras</option><option>Administración</option><option>Logística</option></select>
+            </div>
+            <button class="btn btn-primary" onclick="openModal('nuevoEmpleado')"><i class="fas fa-plus"></i> Nuevo Empleado</button>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-user-tie"></i> Nómina de Personal</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Legajo</th><th>Nombre Completo</th><th>DNI</th><th>Sector</th><th>Cargo</th>
+                      <th>Fecha Ingreso</th><th>Sueldo Básico</th><th>Estado</th><th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody id="empleadosTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SENASA / TRAZABILIDAD -->
+        <section id="section-senasa" class="page-section">
+          <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+              <strong>SENASA - Trazabilidad Obligatoria.</strong> Todos los movimientos deben tener DTE (Documento de Tránsito Electrónico) vigente. Resolución SENASA 468/2013.
+            </div>
+          </div>
+
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(this,'senasa-dte')"><i class="fas fa-file-alt"></i> DTE</button>
+            <button class="tab-btn" onclick="switchTab(this,'senasa-trazabilidad')"><i class="fas fa-route"></i> Trazabilidad</button>
+            <button class="tab-btn" onclick="switchTab(this,'senasa-renspa')"><i class="fas fa-map-marker-alt"></i> RENSPA</button>
+            <button class="tab-btn" onclick="switchTab(this,'senasa-decomiso')"><i class="fas fa-ban"></i> Decomisos</button>
+          </div>
+
+          <div id="senasa-dte" class="tab-content active">
+            <div class="toolbar">
+              <button class="btn btn-primary btn-sm" onclick="openModal('nuevoDTE')"><i class="fas fa-plus"></i> Registrar DTE</button>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>Documentos de Tránsito Electrónico</h3></div>
+              <div class="card-body">
+                <div class="table-container">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Nº DTE</th><th>Fecha</th><th>Origen (RENSPA)</th><th>Destino</th><th>Especie</th>
+                        <th>Cabezas</th><th>Transportista</th><th>Patente</th><th>Estado</th><th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dtesTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="senasa-trazabilidad" class="tab-content">
+            <div class="card">
+              <div class="card-body">
+                <div class="form-inline mb-20">
+                  <input type="text" class="form-control" placeholder="Buscar por Nº Tropa o DTE" style="width:300px">
+                  <button class="btn btn-primary">Buscar Trazabilidad</button>
+                </div>
+                <div class="empty-state">
+                  <i class="fas fa-search"></i>
+                  <h3>Ingrese un número de tropa o DTE</h3>
+                  <p>para ver la trazabilidad completa del movimiento de hacienda</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="senasa-renspa" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Registro de establecimientos RENSPA vinculados</p></div></div></div>
+          <div id="senasa-decomiso" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Registro de decomisos e inspecciones veterinarias</p></div></div></div>
+        </section>
+
+        <!-- REPORTES -->
+        <section id="section-reportes" class="page-section">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(this,'rep-produccion')"><i class="fas fa-industry"></i> Producción</button>
+            <button class="tab-btn" onclick="switchTab(this,'rep-ventas')"><i class="fas fa-chart-line"></i> Ventas</button>
+            <button class="tab-btn" onclick="switchTab(this,'rep-financiero')"><i class="fas fa-dollar-sign"></i> Financiero</button>
+            <button class="tab-btn" onclick="switchTab(this,'rep-stock')"><i class="fas fa-boxes-stacked"></i> Stock</button>
+            <button class="tab-btn" onclick="switchTab(this,'rep-impositivo')"><i class="fas fa-landmark"></i> Impositivo</button>
+          </div>
+
+          <div id="rep-produccion" class="tab-content active">
+            <div class="grid-2">
+              <div class="card"><div class="card-header"><h4>Parte Diario de Faena</h4></div><div class="card-body"><p class="text-muted">Detalle de la faena diaria</p></div></div>
+              <div class="card"><div class="card-header"><h4>Rendimiento por Tropa</h4></div><div class="card-body"><p class="text-muted">Análisis de rendimiento</p></div></div>
+              <div class="card"><div class="card-header"><h4>Rendimiento Desposte</h4></div><div class="card-body"><p class="text-muted">Cortes obtenidos vs estimado</p></div></div>
+            </div>
+          </div>
+          <div id="rep-ventas" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Reportes de ventas: por cliente, por producto, por período</p></div></div></div>
+          <div id="rep-financiero" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Estado de resultados, flujo de caja, balance</p></div></div></div>
+          <div id="rep-stock" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Valorización de stock, movimientos, rotación</p></div></div></div>
+          <div id="rep-impositivo" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Libro IVA Ventas, Libro IVA Compras, IIBB, Percepciones/Retenciones</p></div></div></div>
+        </section>
+
+        <!-- AUDITORÍA -->
+        <section id="section-auditoria" class="page-section">
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-shield-alt"></i> Log de Auditoría del Sistema</h3></div>
+            <div class="card-body">
+              <div class="table-container">
+                <table>
+                  <thead><tr><th>Fecha/Hora</th><th>Usuario</th><th>Acción</th><th>Módulo</th><th>Detalle</th><th>IP</th></tr></thead>
+                  <tbody id="auditoriaTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CONFIGURACIÓN -->
+        <section id="section-configuracion" class="page-section">
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab(this,'config-empresa')"><i class="fas fa-building"></i> Empresa</button>
+            <button class="tab-btn" onclick="switchTab(this,'config-fiscal')"><i class="fas fa-file-invoice"></i> Fiscal/AFIP</button>
+            <button class="tab-btn" onclick="switchTab(this,'config-usuarios')"><i class="fas fa-users-gear"></i> Usuarios</button>
+            <button class="tab-btn" onclick="switchTab(this,'config-camaras')"><i class="fas fa-snowflake"></i> Cámaras/Corrales</button>
+            <button class="tab-btn" onclick="switchTab(this,'config-backup')"><i class="fas fa-database"></i> Backup</button>
+          </div>
+
+          <div id="config-empresa" class="tab-content active">
+            <div class="card">
+              <div class="card-header"><h3>Datos de la Empresa</h3></div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group"><label>Razón Social <span class="required">*</span></label><input type="text" class="form-control" value="Frigorífico Don Pedro S.A."></div>
+                  <div class="form-group"><label>CUIT <span class="required">*</span></label><input type="text" class="form-control" value="30-12345678-9"></div>
+                  <div class="form-group"><label>Nº Matrícula SENASA</label><input type="text" class="form-control" value="FR-001234"></div>
+                  <div class="form-group"><label>Nº Establecimiento</label><input type="text" class="form-control" value="EST-5678"></div>
+                  <div class="form-group"><label>Dirección</label><input type="text" class="form-control" value="Ruta 201 Km 45, Buenos Aires"></div>
+                  <div class="form-group"><label>Teléfono</label><input type="text" class="form-control" value="(011) 4567-8900"></div>
+                  <div class="form-group"><label>Email</label><input type="email" class="form-control" value="admin@frigorificodonpedro.com.ar"></div>
+                  <div class="form-group"><label>Condición IVA</label>
+                    <select class="form-control" id="cfgCondIva"><option selected>Responsable Inscripto</option><option>Monotributista</option><option>Exento</option></select>
+                  </div>
+                  <div class="form-group"><label>IIBB</label><input type="text" class="form-control" value="061-123456-7"></div>
+                  <div class="form-group"><label>Inicio de Actividades</label><input type="date" class="form-control" value="2010-03-15"></div>
+                </div>
+                <button class="btn btn-primary" onclick="guardarConfigEmpresa()"><i class="fas fa-save"></i> Guardar Cambios</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="config-fiscal" class="tab-content">
+            <div class="card">
+              <div class="card-header"><h3>Configuración Fiscal / AFIP</h3></div>
+              <div class="card-body">
+                <p class="text-muted mb-20"><small>Configure los datos para la emisión de comprobantes electrónicos vía Web Service de AFIP (WSFE)</small></p>
+                <div class="form-row">
+                  <div class="form-group"><label>Punto de Venta</label><input type="text" class="form-control" value="0001"></div>
+                  <div class="form-group"><label>Certificado Digital (.pem)</label><input type="file" class="form-control"></div>
+                  <div class="form-group"><label>Clave Privada (.key)</label><input type="file" class="form-control"></div>
+                  <div class="form-group"><label>Entorno</label>
+                    <select class="form-control"><option>Homologación (Testing)</option><option selected>Producción</option></select>
+                  </div>
+                  <div class="form-group"><label>Último Nº Factura A</label><input type="text" class="form-control" value="0001-00001527"></div>
+                  <div class="form-group"><label>Último Nº Factura B</label><input type="text" class="form-control" value="0001-00003848"></div>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-primary"><i class="fas fa-save"></i> Guardar Config. Fiscal</button>
+                  <button class="btn btn-secondary"><i class="fas fa-plug"></i> Test Conexión AFIP</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="config-usuarios" class="tab-content">
+            <div class="toolbar">
+              <button class="btn btn-primary btn-sm" onclick="openModal('nuevoUsuario')"><i class="fas fa-plus"></i> Nuevo Usuario</button>
+            </div>
+            <div class="card">
+              <div class="card-header"><h3>Gestión de Usuarios</h3></div>
+              <div class="card-body">
+                <div class="table-container">
+                  <table>
+                    <thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Último Acceso</th><th>Estado</th><th>Acciones</th></tr></thead>
+                    <tbody id="usuariosTable"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="config-camaras" class="tab-content"><div class="card"><div class="card-body"><p class="text-muted text-center">Configuración de cámaras frigoríficas y corrales</p></div></div></div>
+
+          <div id="config-backup" class="tab-content">
+            <div class="card">
+              <div class="card-header"><h3>Backup y Restauración</h3></div>
+              <div class="card-body">
+                <div class="btn-group mb-20">
+                  <button class="btn btn-primary" onclick="realizarBackup()"><i class="fas fa-download"></i> Realizar Backup Ahora</button>
+                  <button class="btn btn-secondary"><i class="fas fa-upload"></i> Restaurar Backup</button>
+                </div>
+                <p><strong>Último backup:</strong> Hoy a las 03:00 AM - Automático</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AYUDA / MANUAL -->
+        <section id="section-ayuda" class="page-section">
+          <div class="card">
+            <div class="card-header"><h3><i class="fas fa-book"></i> Manual de Usuario - MATARIFE PRO</h3></div>
+            <div class="card-body">
+              <p class="mb-20">Bienvenido al manual del sistema. Aquí encontrará información detallada sobre cada módulo y función del sistema.</p>
+              
+              <div class="help-section">
+                <div class="help-question" onclick="toggleHelp(this)">¿Cómo registro una nueva tropa? <i class="fas fa-chevron-down"></i></div>
+                <div class="help-answer">
+                  <ol>
+                    <li>Vaya al módulo <strong>"Hacienda / Tropas"</strong> en el menú lateral.</li>
+                    <li>Haga clic en <strong>"Nueva Tropa"</strong>.</li>
+                    <li>Complete los datos: Proveedor, Especie, Cantidad de cabezas, Peso vivo, DTE de SENASA, Nº de corral asignado.</li>
+                    <li>El sistema calculará automáticamente el peso promedio y el costo estimado.</li>
+                    <li>Haga clic en <strong>"Guardar"</strong> para registrar el ingreso.</li>
+                  </ol>
+                  <p class="text-muted mt-10"><small><strong>Nota:</strong> Es obligatorio tener el DTE vigente para registrar la tropa (normativa SENASA).</small></p>
+                </div>
+              </div>
+
+              <div class="help-section">
+                <div class="help-question" onclick="toggleHelp(this)">¿Cómo registro la faena diaria? <i class="fas fa-chevron-down"></i></div>
+                <div class="help-answer">
+                  <ol>
+                    <li>Vaya al módulo <strong>"Faena / Producción"</strong>.</li>
+                    <li>Haga clic en <strong>"Registrar Faena"</strong>.</li>
+                    <li>Seleccione la tropa a faenar.</li>
+                    <li>Ingrese: Cantidad de cabezas faenadas, Peso de res obtenido, Decomisos (si los hubiera).</li>
+                    <li>El sistema calcula automáticamente el rendimiento (%).</li>
+                    <li>El inspector veterinario debe validar la faena.</li>
+                    <li>Los kg producidos se agregan automáticamente al stock.</li>
+                  </ol>
+                </div>
+              </div>
+
+              <div class="help-section">
+                <div class="help-question" onclick="toggleHelp(this)">¿Cómo emito una factura? <i class="fas fa-chevron-down"></i></div>
+                <div class="help-answer">
+                  <ol>
+                    <li>Vaya al módulo <strong>"Facturación"</strong>.</li>
+                    <li>Haga clic en <strong>"Nueva Factura"</strong>.</li>
+                    <li>Seleccione el tipo de comprobante (A, B, C, E).</li>
+                    <li>Seleccione el cliente (los datos fiscales se cargan automáticamente).</li>
+                    <li>Agregue los items: seleccione producto, cantidad en Kg, precio unitario.</li>
+                    <li>El sistema calcula IVA (10.5% carnes / 21% otros), percepciones si corresponde.</li>
+                    <li>Haga clic en <strong>"Emitir Factura"</strong>.</li>
+                    <li>El sistema genera el CAE a través de AFIP (Web Service WSFE).</li>
+                    <li>Puede imprimir o enviar por email el comprobante.</li>
+                  </ol>
+                  <p class="text-muted mt-10"><small><strong>Nota:</strong> Las carnes frescas tienen IVA del 10.5% (Ley 27.253).</small></p>
+                </div>
+              </div>
+
+              <div class="help-section">
+                <div class="help-question" onclick="toggleHelp(this)">¿Qué es el DTE y por qué es obligatorio? <i class="fas fa-chevron-down"></i></div>
+                <div class="help-answer">
+                  <p>El <strong>DTE (Documento de Tránsito Electrónico)</strong> es el documento que autoriza el traslado de animales en pie en todo el territorio argentino. Es emitido por SENASA y reemplaza al antiguo permiso de tránsito en papel.</p>
+                  <p class="mt-10"><strong>Datos que contiene:</strong> Origen (RENSPA), Destino, Especie, Cantidad, Categoría, Transportista, Patente.</p>
+                  <p class="mt-10"><strong>Normativa:</strong> Resolución SENASA 468/2013. Su incumplimiento genera multas y decomiso de la hacienda.</p>
+                </div>
+              </div>
+
+              <div class="help-section">
+                <div class="help-question" onclick="toggleHelp(this)">¿Cuáles son los roles de usuario? <i class="fas fa-chevron-down"></i></div>
+                <div class="help-answer">
+                  <p><strong>Administrador:</strong> Acceso total al sistema. Puede configurar, crear usuarios, ver reportes financieros, emitir facturas, etc.</p>
+                  <p><strong>Operador:</strong> Puede registrar tropas, faena, ventas y stock. No puede acceder a configuración ni contabilidad avanzada.</p>
+                  <p><strong>Consulta:</strong> Solo puede ver información (dashboards, reportes, stock). No puede crear ni modificar datos.</p>
+                  <p><strong>Facturación:</strong> Solo accede a ventas, facturación y clientes.</p>
+                </div>
+              </div>
+
+              <div class="alert alert-info mt-20">
+                <i class="fas fa-headset"></i>
+                <div>
+                  <strong>Soporte Técnico</strong><br>
+                  <strong>Teléfono:</strong> 0800-999-MATARIFE (628)<br>
+                  <strong>Email:</strong> soporte@matarifepro.com.ar<br>
+                  <strong>Horario:</strong> Lunes a Viernes de 8:00 a 18:00 hs<br>
+                  <strong>Versión del Sistema:</strong> MATARIFE PRO v2.0.0<br>
+                  <strong>Base Legal:</strong> Cumple con normativas SENASA, AFIP (Factura Electrónica), Ley 27.253 (IVA reducido en carnes).
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" id="modalContent">
+      <div class="modal-header">
+        <h3 id="modalTitle"><i class="fas fa-info-circle"></i> Información</h3>
+        <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer" id="modalFooter">
+        <button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // ============================================================================
+    // MATARIFE PRO - SISTEMA INTEGRAL DE GESTIÓN
+    // JavaScript Principal - Base de Datos Local + Lógica de Negocio
+    // ============================================================================
+
+    // ======================== DATABASE (LocalStorage) ========================
+    const DB = {
+      get(key) { try { return JSON.parse(localStorage.getItem('mp_' + key)) || []; } catch(e) { return []; } },
+      set(key, data) { localStorage.setItem('mp_' + key, JSON.stringify(data)); },
+      getConfig(key) { try { return JSON.parse(localStorage.getItem('mp_cfg_' + key)) || {}; } catch(e) { return {}; } },
+      setConfig(key, data) { localStorage.setItem('mp_cfg_' + key, JSON.stringify(data)); },
+      getNextId(key) { let ids = this.get(key).map(x => x.id || 0); return ids.length ? Math.max(...ids) + 1 : 1; }
+    };
+
+    // ======================== SEED DATA ========================
+    function seedData() {
+      if (localStorage.getItem('mp_seeded')) return;
+      
+      // Usuarios
+      DB.set('usuarios', [
+        { id: 1, user: 'admin', pass: 'admin123', nombre: 'Administrador General', rol: 'admin', estado: 'activo', ultimoAcceso: '2025-01-15 08:30' },
+        { id: 2, user: 'operador', pass: 'oper123', nombre: 'Juan Pérez', rol: 'operador', estado: 'activo', ultimoAcceso: '2025-01-15 07:45' },
+        { id: 3, user: 'consulta', pass: 'cons123', nombre: 'María García', rol: 'consulta', estado: 'activo', ultimoAcceso: '2025-01-14 16:20' },
+        { id: 4, user: 'facturacion', pass: 'fact123', nombre: 'Carlos López', rol: 'facturacion', estado: 'activo', ultimoAcceso: '2025-01-15 09:00' }
+      ]);
+
+      // Proveedores
+      DB.set('proveedores', [
+        { id: 1, codigo: 'PROV-001', razonSocial: 'Estancia La Esperanza S.A.', cuit: '30-12345678-9', renspa: '06.123.0.12345/00', tipo: 'Ganadero', provincia: 'Buenos Aires', telefono: '(011) 4567-1234', email: 'contacto@laesperanza.com.ar', saldo: -2450000, estado: 'activo' },
+        { id: 2, codigo: 'PROV-002', razonSocial: 'Consignataria Del Campo SRL', cuit: '30-98765432-1', renspa: '06.456.0.67890/00', tipo: 'Consignatario', provincia: 'Córdoba', telefono: '(0351) 456-7890', email: 'ventas@delcampo.com.ar', saldo: -1890000, estado: 'activo' },
+        { id: 3, codigo: 'PROV-003', razonSocial: 'Feed Lot Pampeano SA', cuit: '30-55667788-3', renspa: '06.789.0.11223/00', tipo: 'Feed Lot', provincia: 'La Pampa', telefono: '(02302) 45-6789', email: 'info@feedlotpampeano.com.ar', saldo: -3200000, estado: 'activo' },
+        { id: 4, codigo: 'PROV-004', razonSocial: 'Cabaña San Martín', cuit: '20-33445566-7', renspa: '06.321.0.44556/00', tipo: 'Ganadero', provincia: 'Entre Ríos', telefono: '(0343) 432-1098', email: 'cabana@sanmartin.com', saldo: 0, estado: 'activo' }
+      ]);
+
+      // Clientes
+      DB.set('clientes', [
+        { id: 1, codigo: 'CLI-001', razonSocial: 'Carnicería Don José', cuit: '20-12345678-9', tipoIva: 'Responsable Inscripto', categoria: 'Carnicería', telefono: '(011) 4321-5678', localidad: 'CABA', email: 'donjose@gmail.com', saldoCC: 580000, estado: 'activo' },
+        { id: 2, codigo: 'CLI-002', razonSocial: 'Supermercados La Unión SA', cuit: '30-87654321-0', tipoIva: 'Responsable Inscripto', categoria: 'Supermercado', telefono: '(011) 5678-1234', localidad: 'Quilmes', email: 'compras@launion.com.ar', saldoCC: 2340000, estado: 'activo' },
+        { id: 3, codigo: 'CLI-003', razonSocial: 'Distribuidora Norte SRL', cuit: '30-11223344-5', tipoIva: 'Responsable Inscripto', categoria: 'Distribuidor', telefono: '(0341) 456-7890', localidad: 'Rosario', email: 'pedidos@distnorte.com.ar', saldoCC: 1100000, estado: 'activo' },
+        { id: 4, codigo: 'CLI-004', razonSocial: 'Restaurante El Buen Asado', cuit: '20-99887766-3', tipoIva: 'Responsable Inscripto', categoria: 'Gastronomía', telefono: '(011) 9876-5432', localidad: 'Palermo', email: 'compras@buenasado.com', saldoCC: 0, estado: 'activo' },
+        { id: 5, codigo: 'CLI-005', razonSocial: 'Frigorífico Sur SA', cuit: '30-44556677-8', tipoIva: 'Responsable Inscripto', categoria: 'Frigorífico', telefono: '(0291) 456-0000', localidad: 'Bahía Blanca', email: 'compras@frigosur.com.ar', saldoCC: 4500000, estado: 'activo' },
+        { id: 6, codigo: 'CLI-006', razonSocial: 'Carnicería Los Hermanos', cuit: '20-55443322-1', tipoIva: 'Monotributista', categoria: 'Carnicería', telefono: '(011) 3456-7890', localidad: 'Lanús', email: 'loshermanos@hotmail.com', saldoCC: 120000, estado: 'activo' }
+      ]);
+
+      // Tropas
+      DB.set('tropas', [
+        { id: 1, numero: 'T-2025-001', fecha: '2025-01-10', proveedorId: 1, proveedor: 'Estancia La Esperanza S.A.', especie: 'bovino', cabezas: 120, kgVivoTotal: 48000, kgPromedio: 400, dte: 'DTE-2025-00123', corral: 'C-01', estado: 'corral', costoKg: 1850 },
+        { id: 2, numero: 'T-2025-002', fecha: '2025-01-11', proveedorId: 2, proveedor: 'Consignataria Del Campo SRL', especie: 'bovino', cabezas: 85, kgVivoTotal: 35700, kgPromedio: 420, dte: 'DTE-2025-00124', corral: 'C-02', estado: 'corral', costoKg: 1870 },
+        { id: 3, numero: 'T-2025-003', fecha: '2025-01-12', proveedorId: 3, proveedor: 'Feed Lot Pampeano SA', especie: 'bovino', cabezas: 200, kgVivoTotal: 86000, kgPromedio: 430, dte: 'DTE-2025-00125', corral: 'C-03', estado: 'corral', costoKg: 1900 },
+        { id: 4, numero: 'T-2025-004', fecha: '2025-01-12', proveedorId: 1, proveedor: 'Estancia La Esperanza S.A.', especie: 'porcino', cabezas: 80, kgVivoTotal: 8800, kgPromedio: 110, dte: 'DTE-2025-00126', corral: 'C-05', estado: 'corral', costoKg: 1200 },
+        { id: 5, numero: 'T-2025-005', fecha: '2025-01-13', proveedorId: 4, proveedor: 'Cabaña San Martín', especie: 'bovino', cabezas: 150, kgVivoTotal: 63000, kgPromedio: 420, dte: 'DTE-2025-00127', corral: 'C-04', estado: 'faenada', costoKg: 1860 },
+        { id: 6, numero: 'T-2025-006', fecha: '2025-01-14', proveedorId: 2, proveedor: 'Consignataria Del Campo SRL', especie: 'bovino', cabezas: 95, kgVivoTotal: 38000, kgPromedio: 400, dte: 'DTE-2025-00128', corral: 'C-06', estado: 'corral', costoKg: 1840 },
+        { id: 7, numero: 'T-2025-007', fecha: '2025-01-14', proveedorId: 3, proveedor: 'Feed Lot Pampeano SA', especie: 'porcino', cabezas: 56, kgVivoTotal: 5880, kgPromedio: 105, dte: 'DTE-2025-00129', corral: 'C-07', estado: 'transito', costoKg: 1180 }
+      ]);
+
+      // Faena
+      DB.set('faena', [
+        { id: 1, orden: 'FAE-2025-001', fecha: '2025-01-13', tropaId: 5, tropa: 'T-2025-005', especie: 'bovino', cabezas: 150, kgVivo: 63000, kgRes: 35280, rinde: 56.0, decomisos: 2, inspector: 'Dr. Martínez', estado: 'completada' },
+        { id: 2, orden: 'FAE-2025-002', fecha: '2025-01-14', tropaId: 1, tropa: 'T-2025-001', especie: 'bovino', cabezas: 60, kgVivo: 24000, kgRes: 13680, rinde: 57.0, decomisos: 1, inspector: 'Dr. Martínez', estado: 'completada' },
+        { id: 3, orden: 'FAE-2025-003', fecha: '2025-01-15', tropaId: 2, tropa: 'T-2025-002', especie: 'bovino', cabezas: 85, kgVivo: 35700, kgRes: 19992, rinde: 56.0, decomisos: 0, inspector: 'Dr. González', estado: 'en_proceso' }
+      ]);
+
+      // Stock
+      DB.set('stock', [
+        { id: 1, codigo: 'MR-BOV-001', producto: 'Media Res Bovina', categoria: 'Media Res', camara: 'Cámara 1', stockKg: 42500, stockMin: 10000, precioKg: 3800, ultMov: '2025-01-15' },
+        { id: 2, codigo: 'CT-ASA-001', producto: 'Asado c/hueso', categoria: 'Cortes', camara: 'Cámara 1', stockKg: 8200, stockMin: 2000, precioKg: 5200, ultMov: '2025-01-15' },
+        { id: 3, codigo: 'CT-VAC-001', producto: 'Vacío', categoria: 'Cortes', camara: 'Cámara 1', stockKg: 3400, stockMin: 1000, precioKg: 7800, ultMov: '2025-01-14' },
+        { id: 4, codigo: 'CT-BIF-001', producto: 'Bife Ancho', categoria: 'Cortes', camara: 'Cámara 1', stockKg: 4100, stockMin: 1500, precioKg: 6500, ultMov: '2025-01-15' },
+        { id: 5, codigo: 'CT-NAL-001', producto: 'Nalga', categoria: 'Cortes', camara: 'Cámara 1', stockKg: 5600, stockMin: 1500, precioKg: 5800, ultMov: '2025-01-14' },
+        { id: 6, codigo: 'CT-CUA-001', producto: 'Cuadrada', categoria: 'Cortes', camara: 'Cámara 1', stockKg: 3200, stockMin: 1000, precioKg: 5400, ultMov: '2025-01-13' },
+        { id: 7, codigo: 'CT-PAL-001', producto: 'Paleta', categoria: 'Cortes', camara: 'Cámara 1', stockKg: 6800, stockMin: 2000, precioKg: 4200, ultMov: '2025-01-15' },
+        { id: 8, codigo: 'CT-MAT-001', producto: 'Matambre', categoria: 'Cortes', camara: 'Cámara 2', stockKg: 1800, stockMin: 500, precioKg: 6200, ultMov: '2025-01-14' },
+        { id: 9, codigo: 'MN-HIG-001', producto: 'Hígado', categoria: 'Menudencias', camara: 'Cámara 3', stockKg: 2400, stockMin: 500, precioKg: 1800, ultMov: '2025-01-15' },
+        { id: 10, codigo: 'MN-MON-001', producto: 'Mondongo', categoria: 'Menudencias', camara: 'Cámara 3', stockKg: 3100, stockMin: 800, precioKg: 1500, ultMov: '2025-01-14' },
+        { id: 11, codigo: 'MR-POR-001', producto: 'Media Res Porcina', categoria: 'Media Res', camara: 'Cámara 2', stockKg: 4800, stockMin: 2000, precioKg: 3200, ultMov: '2025-01-13' },
+        { id: 12, codigo: 'CT-LON-001', producto: 'Lomo', categoria: 'Cortes', camara: 'Cámara 4', stockKg: 890, stockMin: 500, precioKg: 9800, ultMov: '2025-01-15' },
+        { id: 13, codigo: 'CT-TIR-001', producto: 'Tira de Asado', categoria: 'Cortes', camara: 'Cámara 1', stockKg: 4300, stockMin: 5000, precioKg: 4800, ultMov: '2025-01-15' },
+        { id: 14, codigo: 'CT-ENT-001', producto: 'Entraña', categoria: 'Cortes', camara: 'Cámara 1', stockKg: 1200, stockMin: 800, precioKg: 8500, ultMov: '2025-01-14' },
+        { id: 15, codigo: 'CT-CRN-001', producto: 'Carne Picada Especial', categoria: 'Procesados', camara: 'Cámara 2', stockKg: 2800, stockMin: 3000, precioKg: 3200, ultMov: '2025-01-15' }
+      ]);
+
+      // Cortes
+      DB.set('cortes', [
+        { id: 1, codigo: 'BIFE-ANC', nombre: 'Bife Ancho', categoria: 'Premium', rindeEst: 4.2, precioKg: 6500, stock: 4100 },
+        { id: 2, codigo: 'BIFE-ANG', nombre: 'Bife Angosto', categoria: 'Premium', rindeEst: 3.8, precioKg: 7200, stock: 2800 },
+        { id: 3, codigo: 'LOMO', nombre: 'Lomo', categoria: 'Premium', rindeEst: 1.8, precioKg: 9800, stock: 890 },
+        { id: 4, codigo: 'ENTRAÑA', nombre: 'Entraña', categoria: 'Premium', rindeEst: 1.2, precioKg: 8500, stock: 1200 },
+        { id: 5, codigo: 'VACIO', nombre: 'Vacío', categoria: 'Premium', rindeEst: 2.5, precioKg: 7800, stock: 3400 },
+        { id: 6, codigo: 'ASADO', nombre: 'Asado c/hueso', categoria: 'Parrilla', rindeEst: 8.5, precioKg: 5200, stock: 8200 },
+        { id: 7, codigo: 'TIRA', nombre: 'Tira de Asado', categoria: 'Parrilla', rindeEst: 5.0, precioKg: 4800, stock: 4300 },
+        { id: 8, codigo: 'MATAMBRE', nombre: 'Matambre', categoria: 'Parrilla', rindeEst: 2.0, precioKg: 6200, stock: 1800 },
+        { id: 9, codigo: 'NALGA', nombre: 'Nalga', categoria: 'Cortes Traseros', rindeEst: 5.5, precioKg: 5800, stock: 5600 },
+        { id: 10, codigo: 'CUADRADA', nombre: 'Cuadrada', categoria: 'Cortes Traseros', rindeEst: 3.5, precioKg: 5400, stock: 3200 },
+        { id: 11, codigo: 'PECETO', nombre: 'Peceto', categoria: 'Cortes Traseros', rindeEst: 2.0, precioKg: 6800, stock: 1500 },
+        { id: 12, codigo: 'PALETA', nombre: 'Paleta', categoria: 'Cortes Delanteros', rindeEst: 7.0, precioKg: 4200, stock: 6800 },
+        { id: 13, codigo: 'AGUJA', nombre: 'Aguja', categoria: 'Cortes Delanteros', rindeEst: 6.0, precioKg: 3800, stock: 5200 },
+        { id: 14, codigo: 'CARN-PIC', nombre: 'Carne Picada', categoria: 'Procesados', rindeEst: 10.0, precioKg: 3200, stock: 2800 },
+        { id: 15, codigo: 'HUESO', nombre: 'Hueso con carne', categoria: 'Subproductos', rindeEst: 15.0, precioKg: 1200, stock: 8500 }
+      ]);
+
+      // Ventas
+      DB.set('ventas', [
+        { id: 1, numero: 'VTA-2025-001', fecha: '2025-01-14', clienteId: 1, cliente: 'Carnicería Don José', items: 3, kgTotal: 450, subtotal: 2115000, iva: 222075, total: 2337075, estado: 'entregado' },
+        { id: 2, numero: 'VTA-2025-002', fecha: '2025-01-14', clienteId: 2, cliente: 'Supermercados La Unión SA', items: 8, kgTotal: 2800, subtotal: 11760000, iva: 1234800, total: 12994800, estado: 'entregado' },
+        { id: 3, numero: 'VTA-2025-003', fecha: '2025-01-15', clienteId: 3, cliente: 'Distribuidora Norte SRL', items: 5, kgTotal: 1200, subtotal: 5040000, iva: 529200, total: 5569200, estado: 'pendiente' },
+        { id: 4, numero: 'VTA-2025-004', fecha: '2025-01-15', clienteId: 4, cliente: 'Restaurante El Buen Asado', items: 2, kgTotal: 80, subtotal: 520000, iva: 54600, total: 574600, estado: 'pendiente' },
+        { id: 5, numero: 'VTA-2025-005', fecha: '2025-01-15', clienteId: 5, cliente: 'Frigorífico Sur SA', items: 4, kgTotal: 5000, subtotal: 19000000, iva: 1995000, total: 20995000, estado: 'pendiente' }
+      ]);
+
+      // Facturas
+      DB.set('facturas', [
+        { id: 1, tipo: 'A', numero: '0001-00001524', fecha: '2025-01-14', clienteId: 1, cliente: 'Carnicería Don José', cuit: '20-12345678-9', netoGravado: 2115000, iva: 222075, total: 2337075, cae: '75012345678901', vencCae: '2025-01-24', estado: 'pagada' },
+        { id: 2, tipo: 'A', numero: '0001-00001525', fecha: '2025-01-14', clienteId: 2, cliente: 'Supermercados La Unión SA', cuit: '30-87654321-0', netoGravado: 11760000, iva: 1234800, total: 12994800, cae: '75012345678902', vencCae: '2025-01-24', estado: 'emitida' },
+        { id: 3, tipo: 'A', numero: '0001-00001526', fecha: '2025-01-15', clienteId: 3, cliente: 'Distribuidora Norte SRL', cuit: '30-11223344-5', netoGravado: 5040000, iva: 529200, total: 5569200, cae: '75012345678903', vencCae: '2025-01-25', estado: 'emitida' },
+        { id: 4, tipo: 'B', numero: '0001-00003848', fecha: '2025-01-15', clienteId: 6, cliente: 'Carnicería Los Hermanos', cuit: '20-55443322-1', netoGravado: 380000, iva: 39900, total: 419900, cae: '75012345678904', vencCae: '2025-01-25', estado: 'emitida' },
+        { id: 5, tipo: 'A', numero: '0001-00001527', fecha: '2025-01-15', clienteId: 5, cliente: 'Frigorífico Sur SA', cuit: '30-44556677-8', netoGravado: 19000000, iva: 1995000, total: 20995000, cae: '75012345678905', vencCae: '2025-01-25', estado: 'emitida' }
+      ]);
+
+      // Empleados
+      DB.set('empleados', [
+        { id: 1, legajo: 'E-001', nombre: 'Roberto Fernández', dni: '28.456.789', sector: 'Faena', cargo: 'Jefe de Playa', fechaIngreso: '2010-03-15', sueldoBasico: 850000, estado: 'activo' },
+        { id: 2, legajo: 'E-002', nombre: 'Miguel Sánchez', dni: '31.234.567', sector: 'Faena', cargo: 'Operario', fechaIngreso: '2015-06-01', sueldoBasico: 620000, estado: 'activo' },
+        { id: 3, legajo: 'E-003', nombre: 'Ana Rodríguez', dni: '33.567.890', sector: 'Administración', cargo: 'Contadora', fechaIngreso: '2012-01-10', sueldoBasico: 950000, estado: 'activo' },
+        { id: 4, legajo: 'E-004', nombre: 'Pedro Gómez', dni: '29.876.543', sector: 'Desposte', cargo: 'Despostador', fechaIngreso: '2018-04-20', sueldoBasico: 700000, estado: 'activo' },
+        { id: 5, legajo: 'E-005', nombre: 'Laura Díaz', dni: '35.123.456', sector: 'Cámaras', cargo: 'Encargada Cámaras', fechaIngreso: '2019-08-15', sueldoBasico: 680000, estado: 'activo' },
+        { id: 6, legajo: 'E-006', nombre: 'Diego Martínez', dni: '30.789.012', sector: 'Logística', cargo: 'Chofer', fechaIngreso: '2016-11-01', sueldoBasico: 580000, estado: 'activo' },
+        { id: 7, legajo: 'E-007', nombre: 'Carlos Ruiz', dni: '27.345.678', sector: 'Faena', cargo: 'Matarife', fechaIngreso: '2008-02-20', sueldoBasico: 720000, estado: 'activo' }
+      ]);
+
+      // DTE
+      DB.set('dtes', [
+        { id: 1, numero: 'DTE-2025-00123', fecha: '2025-01-10', origenRenspa: '06.123.0.12345/00', destino: 'Frigorífico Don Pedro', especie: 'Bovino', cabezas: 120, transportista: 'Transportes Ganaderos SA', patente: 'AB 123 CD', estado: 'cerrado' },
+        { id: 2, numero: 'DTE-2025-00124', fecha: '2025-01-11', origenRenspa: '06.456.0.67890/00', destino: 'Frigorífico Don Pedro', especie: 'Bovino', cabezas: 85, transportista: 'Flete Rural SRL', patente: 'EF 456 GH', estado: 'cerrado' },
+        { id: 3, numero: 'DTE-2025-00127', fecha: '2025-01-13', origenRenspa: '06.321.0.44556/00', destino: 'Frigorífico Don Pedro', especie: 'Bovino', cabezas: 150, transportista: 'Transportes Ganaderos SA', patente: 'IJ 789 KL', estado: 'cerrado' },
+        { id: 4, numero: 'DTE-2025-00129', fecha: '2025-01-14', origenRenspa: '06.789.0.11223/00', destino: 'Frigorífico Don Pedro', especie: 'Porcino', cabezas: 56, transportista: 'Flete Rural SRL', patente: 'MN 012 OP', estado: 'en_transito' }
+      ]);
+
+      // Auditoría
+      DB.set('auditoria', [
+        { id: 1, fecha: '2025-01-15 09:15:23', usuario: 'admin', accion: 'Login', modulo: 'Sistema', detalle: 'Inicio de sesión exitoso', ip: '192.168.1.100' },
+        { id: 2, fecha: '2025-01-15 09:20:45', usuario: 'admin', accion: 'Crear', modulo: 'Tropas', detalle: 'Nueva tropa T-2025-007 registrada', ip: '192.168.1.100' },
+        { id: 3, fecha: '2025-01-15 10:05:12', usuario: 'operador', accion: 'Faena', modulo: 'Faena', detalle: 'Faena FAE-2025-003 iniciada - 85 cab', ip: '192.168.1.101' },
+        { id: 4, fecha: '2025-01-15 11:30:00', usuario: 'facturacion', accion: 'Facturar', modulo: 'Facturación', detalle: 'Factura A 0001-00001527 emitida', ip: '192.168.1.102' },
+        { id: 5, fecha: '2025-01-15 12:00:00', usuario: 'operador', accion: 'Venta', modulo: 'Ventas', detalle: 'Venta VTA-2025-005 registrada', ip: '192.168.1.101' }
+      ]);
+
+      localStorage.setItem('mp_seeded', 'true');
+    }
+
+    // ======================== AUTHENTICATION ========================
+    let currentUser = null;
+
+    function handleLogin() {
+      const user = document.getElementById('loginUser').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
+      const usuarios = DB.get('usuarios');
+      const found = usuarios.find(u => u.user === user && u.pass === pass && u.estado === 'activo');
+      
+      if (found) {
+        currentUser = found;
+        document.getElementById('loginError').style.display = 'none';
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('appContainer').classList.add('active');
+        document.getElementById('userName').textContent = found.nombre;
+        document.getElementById('userRole').textContent = found.rol.charAt(0).toUpperCase() + found.rol.slice(1);
+        document.getElementById('userAvatar').textContent = found.nombre.split(' ').map(n => n[0]).join('').substring(0, 2);
+        loadDashboard();
+        addAuditLog('Login', 'Sistema', 'Inicio de sesión exitoso');
+        showToast('success', 'Bienvenido', `Hola ${found.nombre}, sesión iniciada correctamente.`);
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+      }
+    }
+
+    function handleLogout() {
+      if (confirm('¿Está seguro que desea cerrar sesión?')) {
+        addAuditLog('Logout', 'Sistema', 'Cierre de sesión');
+        currentUser = null;
+        document.getElementById('appContainer').classList.remove('active');
+        document.getElementById('loginScreen').classList.remove('hidden');
+        document.getElementById('loginPass').value = '';
+      }
+    }
+
+    // ======================== NAVIGATION ========================
+    const pageTitles = {
+      dashboard: ['Dashboard', 'Panel principal de control'],
+      hacienda: ['Hacienda / Tropas', 'Gestión de ingreso y corrales de hacienda'],
+      faena: ['Faena / Producción', 'Registro y control de la faena diaria'],
+      stock: ['Stock / Inventario', 'Control de inventario en cámaras frigoríficas'],
+      cortes: ['Cortes y Desposte', 'Tabla de cortes y registro de desposte'],
+      ventas: ['Ventas / Pedidos', 'Gestión de ventas y pedidos de clientes'],
+      facturacion: ['Facturación', 'Emisión de comprobantes electrónicos AFIP'],
+      clientes: ['Clientes', 'Gestión de la cartera de clientes'],
+      proveedores: ['Proveedores', 'Gestión de proveedores de hacienda'],
+      precios: ['Lista de Precios', 'Precios vigentes por producto y corte'],
+      contabilidad: ['Contabilidad', 'Módulo contable y financiero'],
+      cuentascorrientes: ['Cuentas Corrientes', 'Saldos de clientes y proveedores'],
+      costos: ['Costos / Márgenes', 'Análisis de costos y márgenes de ganancia'],
+      empleados: ['Empleados / RRHH', 'Gestión de recursos humanos'],
+      senasa: ['SENASA / Trazabilidad', 'Control de trazabilidad y documentación SENASA'],
+      reportes: ['Reportes / Estadísticas', 'Reportes y análisis del negocio'],
+      auditoria: ['Auditoría', 'Log de actividades del sistema'],
+      configuracion: ['Configuración', 'Configuración general del sistema'],
+      ayuda: ['Ayuda / Manual', 'Manual de usuario y soporte']
+    };
+
+    function navigateTo(section) {
+      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('section-' + section);
+      if (target) target.classList.add('active');
+      
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const navItem = document.querySelector(`.nav-item[data-section="${section}"]`);
+      if (navItem) navItem.classList.add('active');
+      
+      const titles = pageTitles[section] || [section, ''];
+      document.getElementById('pageTitle').textContent = titles[0];
+      document.getElementById('pageSubtitle').textContent = titles[1];
+      
+      loadSectionData(section);
+    }
+
+    function loadSectionData(section) {
+      switch(section) {
+        case 'dashboard': loadDashboard(); break;
+        case 'hacienda': renderTropas(); break;
+        case 'faena': renderFaena(); break;
+        case 'stock': renderStock(); break;
+        case 'cortes': renderCortes(); break;
+        case 'ventas': renderVentas(); break;
+        case 'facturacion': renderFacturas(); break;
+        case 'clientes': renderClientes(); break;
+        case 'proveedores': renderProveedores(); break;
+        case 'precios': renderPrecios(); break;
+        case 'empleados': renderEmpleados(); break;
+        case 'senasa': renderDTEs(); break;
+        case 'auditoria': renderAuditoria(); break;
+        case 'configuracion': renderUsuarios(); break;
+        case 'cuentascorrientes': renderCCClientes(); break;
+      }
+    }
+
+    // ======================== SIDEBAR ========================
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    }
+
+    // ======================== UTILS ========================
+    function formatMoney(n) {
+      if (typeof n !== 'number') n = parseFloat(n) || 0;
+      return '$ ' + n.toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    function formatMoneyFull(n) {
+      if (typeof n !== 'number') n = parseFloat(n) || 0;
+      return '$ ' + n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function formatNumber(n) { return n.toLocaleString('es-AR'); }
+    function formatDate(d) {
+      if (!d) return '-';
+      const parts = d.split('-');
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+    function today() { return new Date().toISOString().split('T')[0]; }
+    
+    function setCurrentDate() {
+      const d = new Date();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('currentDate').textContent = d.toLocaleDateString('es-AR', options);
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // ======================== TOAST ========================
+    function showToast(type, title, message) {
+      const container = document.getElementById('toastContainer');
+      const icons = { success: 'fa-check-circle', error: 'fa-times-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <i class="fas ${icons[type]}"></i>
+        <div class="toast-text"><strong>${title}</strong><span>${message}</span></div>
+        <button class="toast-close" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 5000);
+    }
+
+    // ======================== MODAL ========================
+    function openModal(type) {
+      const overlay = document.getElementById('modalOverlay');
+      const content = document.getElementById('modalContent');
+      const title = document.getElementById('modalTitle');
+      const body = document.getElementById('modalBody');
+      const footer = document.getElementById('modalFooter');
+      
+      content.className = 'modal';
+      
+      switch(type) {
+        case 'nuevaTropa':
+          content.classList.add('modal-lg');
+          title.innerHTML = '<i class="fas fa-cow"></i> Registrar Nueva Tropa';
+          const proveedores = DB.get('proveedores');
+          body.innerHTML = `
+            <div class="modal-grid">
+              <div class="form-group"><label>Nº Tropa *</label><input type="text" class="form-control" id="m-tropaNumero" value="T-2025-${String(DB.getNextId('tropas')).padStart(3,'0')}"></div>
+              <div class="form-group"><label>Fecha Ingreso *</label><input type="date" class="form-control" id="m-tropaFecha" value="${today()}"></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Proveedor *</label>
+                <select class="form-control" id="m-tropaProveedor">
+                  <option value="">Seleccionar proveedor...</option>
+                  ${proveedores.map(p => `<option value="${p.id}">${p.razonSocial} (${p.cuit})</option>`).join('')}
+                </select>
+              </div>
+              <div class="form-group"><label>Especie *</label>
+                <select class="form-control" id="m-tropaEspecie" onchange="calcularCostoTropa()">
+                  <option value="bovino">Bovino</option>
+                  <option value="porcino">Porcino</option>
+                  <option value="ovino">Ovino</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-grid-3">
+              <div class="form-group"><label>Cantidad Cabezas *</label><input type="number" class="form-control" id="m-tropaCabezas" value="100" oninput="calcularCostoTropa()"></div>
+              <div class="form-group"><label>Kg Vivo Total *</label><input type="number" class="form-control" id="m-tropaKgTotal" value="40000" oninput="calcularCostoTropa()"></div>
+              <div class="form-group"><label>Kg Promedio</label><input type="number" class="form-control" id="m-tropaKgProm" value="400" readonly></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Nº DTE SENASA *</label><input type="text" class="form-control" id="m-tropaDTE" placeholder="DTE-2025-XXXXX"></div>
+              <div class="form-group"><label>Corral Asignado</label>
+                <select class="form-control" id="m-tropaCorral">
+                  <option>C-01</option><option>C-02</option><option>C-03</option><option>C-04</option>
+                  <option>C-05</option><option>C-06</option><option>C-07</option><option>C-08</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-grid-3">
+              <div class="form-group"><label>Costo por Kg Vivo</label><input type="number" class="form-control" id="m-tropaCostoKg" value="1850" oninput="calcularCostoTropa()"></div>
+              <div class="form-group"><label>Costo Total Estimado</label><input type="text" class="form-control" id="m-tropaCostoTotal" value="$ 74,000,000" readonly></div>
+            </div>
+            <div class="form-group"><label>Observaciones</label><textarea class="form-control" id="m-tropaObs" rows="2"></textarea></div>
+          `;
+          footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="guardarTropa()"><i class="fas fa-save"></i> Guardar Tropa</button>
+          `;
+          calcularCostoTropa();
+          break;
+
+        case 'nuevaFaena':
+          content.classList.add('modal-lg');
+          title.innerHTML = '<i class="fas fa-industry"></i> Registrar Faena';
+          const tropasActivas = DB.get('tropas').filter(t => t.estado === 'corral');
+          body.innerHTML = `
+            <div class="modal-grid">
+              <div class="form-group"><label>Nº Orden</label><input type="text" class="form-control" id="m-faenaOrden" value="FAE-2025-${String(DB.getNextId('faena')).padStart(3,'0')}"></div>
+              <div class="form-group"><label>Fecha</label><input type="date" class="form-control" id="m-faenaFecha" value="${today()}"></div>
+            </div>
+            <div class="form-group"><label>Tropa a Faenar *</label>
+              <select class="form-control" id="m-faenaTropa" onchange="seleccionarTropaFaena()">
+                <option value="">Seleccionar tropa...</option>
+                ${tropasActivas.map(t => `<option value="${t.id}">${t.numero} - ${t.proveedor} (${t.cabezas} cab - ${t.especie})</option>`).join('')}
+              </select>
+            </div>
+            <div class="modal-grid-3">
+              <div class="form-group"><label>Cabezas a Faenar *</label><input type="number" class="form-control" id="m-faenaCabezas" value="85" oninput="calcularRendimiento()"></div>
+              <div class="form-group"><label>Kg Vivo *</label><input type="number" class="form-control" id="m-faenaKgVivo" value="35700" oninput="calcularRendimiento()"></div>
+              <div class="form-group"><label>Kg Res Obtenidos *</label><input type="number" class="form-control" id="m-faenaKgRes" value="19992" oninput="calcularRendimiento()"></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Rendimiento %</label><input type="text" class="form-control" id="m-faenaRinde" value="56.0%" readonly></div>
+              <div class="form-group"><label>Decomisos (cabezas)</label><input type="number" class="form-control" id="m-faenaDecomisos" value="0"></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Inspector Veterinario</label><input type="text" class="form-control" id="m-faenaInspector" value="Dr. Martínez"></div>
+              <div class="form-group"><label>Estado</label>
+                <select class="form-control" id="m-faenaEstado">
+                  <option value="en_proceso">En Proceso</option>
+                  <option value="completada" selected>Completada</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group"><label>Observaciones</label><textarea class="form-control" id="m-faenaObs" rows="2"></textarea></div>
+          `;
+          footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="guardarFaena()"><i class="fas fa-save"></i> Registrar Faena</button>
+          `;
+          break;
+
+        case 'nuevaVenta':
+          content.classList.add('modal-xl');
+          title.innerHTML = '<i class="fas fa-shopping-cart"></i> Nueva Venta';
+          const clientes = DB.get('clientes');
+          const stockItems = DB.get('stock').filter(s => s.stockKg > 0);
+          body.innerHTML = `
+            <div class="modal-grid">
+              <div class="form-group"><label>Nº Venta</label><input type="text" class="form-control" id="m-vtaNumero" value="VTA-2025-${String(DB.getNextId('ventas')).padStart(3,'0')}" readonly></div>
+              <div class="form-group"><label>Fecha</label><input type="date" class="form-control" id="m-vtaFecha" value="${today()}"></div>
+            </div>
+            <div class="form-group"><label>Cliente *</label>
+              <select class="form-control" id="m-vtaCliente">
+                <option value="">Seleccionar cliente...</option>
+                ${clientes.map(c => `<option value="${c.id}">${c.razonSocial}</option>`).join('')}
+              </select>
+            </div>
+            <div class="modal-section">
+              <h4><i class="fas fa-list"></i> Items de Venta</h4>
+              <div class="modal-grid-3">
+                <div class="form-group"><label>Producto</label>
+                  <select class="form-control" id="m-vtaProducto">
+                    <option value="">Seleccionar...</option>
+                    ${stockItems.map(s => `<option value="${s.id}" data-precio="${s.precioKg}" data-stock="${s.stockKg}">${s.producto} (Stock: ${formatNumber(s.stockKg)}kg - ${formatMoney(s.precioKg)}/kg)</option>`).join('')}
+                  </select>
+                </div>
+                <div class="form-group"><label>Cantidad Kg</label><input type="number" class="form-control" id="m-vtaCantidad" value="100" min="1"></div>
+                <div class="form-group"><label>Precio/Kg</label><input type="number" class="form-control" id="m-vtaPrecioKg" value="3800" readonly></div>
+              </div>
+              <button class="btn btn-success" onclick="agregarItemVenta()"><i class="fas fa-plus"></i> Agregar</button>
+            </div>
+            <div class="items-table-container">
+              <table class="items-table">
+                <thead><tr><th>Producto</th><th>Kg</th><th>Precio/Kg</th><th>Subtotal</th><th></th></tr></thead>
+                <tbody id="ventaItemsBody"></tbody>
+              </table>
+            </div>
+            <div class="items-summary">
+              <div class="row"><span>Subtotal:</span><span id="vtaSubtotal">$ 0</span></div>
+              <div class="row"><span>IVA (10.5%):</span><span id="vtaIva">$ 0</span></div>
+              <div class="row total"><span>TOTAL:</span><span id="vtaTotal">$ 0</span></div>
+            </div>
+          `;
+          footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="guardarVenta()"><i class="fas fa-save"></i> Guardar Venta</button>
+          `;
+          // Event listener for product selection
+          setTimeout(() => {
+            document.getElementById('m-vtaProducto')?.addEventListener('change', function() {
+              const opt = this.options[this.selectedIndex];
+              if (opt.dataset.precio) {
+                document.getElementById('m-vtaPrecioKg').value = opt.dataset.precio;
+              }
+            });
+          }, 100);
+          window.ventaItems = [];
+          actualizarResumenVenta();
+          break;
+
+        case 'nuevaFactura':
+          content.classList.add('modal-xl');
+          title.innerHTML = '<i class="fas fa-file-invoice-dollar"></i> Emitir Factura Electrónica';
+          const clientesFact = DB.get('clientes');
+          body.innerHTML = `
+            <div class="alert alert-info"><i class="fas fa-info-circle"></i> El sistema emitirá el comprobante electrónico y obtendrá el CAE de AFIP automáticamente.</div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Tipo Comprobante *</label>
+                <select class="form-control" id="m-factTipo">
+                  <option value="A">Factura A</option><option value="B">Factura B</option>
+                  <option value="C">Factura C</option><option value="E">Factura E (Exportación)</option>
+                  <option value="NCA">Nota de Crédito A</option><option value="NCB">Nota de Crédito B</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Punto de Venta</label><input type="text" class="form-control" value="0001"></div>
+              <div class="form-group"><label>Fecha Emisión</label><input type="date" class="form-control" value="${today()}"></div>
+            </div>
+            <div class="form-group"><label>Cliente *</label>
+              <select class="form-control" id="m-factCliente" onchange="cargarDatosCliente()">
+                <option value="">Seleccionar cliente...</option>
+                ${clientesFact.map(c => `<option value="${c.id}" data-cuit="${c.cuit}" data-iva="${c.tipoIva}">${c.razonSocial} - CUIT: ${c.cuit}</option>`).join('')}
+              </select>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>CUIT</label><input type="text" class="form-control" id="m-factCuit" readonly></div>
+              <div class="form-group"><label>Cond. IVA</label><input type="text" class="form-control" id="m-factCondIva" readonly></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Condición de Pago</label>
+                <select class="form-control" id="m-factCondPago">
+                  <option>Contado</option><option>15 días</option><option>30 días</option><option>60 días</option><option>Cuenta Corriente</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Venta Asociada</label>
+                <select class="form-control" id="m-factVenta">
+                  <option value="">Sin asociar</option>
+                  ${DB.get('ventas').filter(v=>v.estado!=='cancelado').map(v => `<option value="${v.id}">${v.numero} - ${v.cliente} (${formatMoney(v.total)})</option>`).join('')}
+                </select>
+              </div>
+            </div>
+            <div class="modal-section">
+              <h4><i class="fas fa-list"></i> Detalle de Items</h4>
+              <div class="modal-grid">
+                <div class="form-group"><label>Descripción</label><input type="text" class="form-control" id="m-factDesc" placeholder="Producto o servicio"></div>
+                <div class="form-group"><label>Cantidad Kg</label><input type="number" class="form-control" id="m-factCant" value="100" min="1"></div>
+                <div class="form-group"><label>Precio Unit.</label><input type="number" class="form-control" id="m-factPrecio" value="3800"></div>
+                <div class="form-group"><label>IVA %</label>
+                  <select class="form-control" id="m-factIvaRate">
+                    <option value="10.5" selected>10.5% (Carnes)</option>
+                    <option value="21">21% (General)</option>
+                    <option value="27">27%</option>
+                    <option value="0">Exento</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-success" onclick="agregarItemFactura()"><i class="fas fa-plus"></i></button>
+            </div>
+            <div class="items-table-container">
+              <table class="items-table">
+                <thead><tr><th>Descripción</th><th>Cantidad</th><th>P.Unit</th><th>Subtotal</th><th>IVA%</th><th>IVA$</th><th></th></tr></thead>
+                <tbody id="facturaItemsBody"></tbody>
+              </table>
+            </div>
+            <div class="items-summary">
+              <div class="row"><span>Neto Gravado:</span><span id="factNeto">$ 0</span></div>
+              <div class="row"><span>IVA:</span><span id="factIva">$ 0</span></div>
+              <div class="row total"><span>TOTAL:</span><span id="factTotal">$ 0</span></div>
+            </div>
+          `;
+          footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-outline" onclick="previsualizarFactura()"><i class="fas fa-eye"></i> Previsualizar</button>
+            <button class="btn btn-primary" onclick="emitirFactura()"><i class="fas fa-paper-plane"></i> Emitir Factura (AFIP)</button>
+          `;
+          window.facturaItems = [];
+          actualizarResumenFactura();
+          break;
+
+        case 'nuevoCliente':
+          title.innerHTML = '<i class="fas fa-user-plus"></i> Nuevo Cliente';
+          body.innerHTML = `
+            <div class="modal-grid">
+              <div class="form-group"><label>Razón Social *</label><input type="text" class="form-control" id="m-cliRazon"></div>
+              <div class="form-group"><label>CUIT *</label><input type="text" class="form-control" id="m-cliCuit" placeholder="20-12345678-9"></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Condición IVA *</label>
+                <select class="form-control" id="m-cliIva">
+                  <option>Responsable Inscripto</option><option>Monotributista</option><option>Consumidor Final</option><option>Exento</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Categoría</label>
+                <select class="form-control" id="m-cliCat">
+                  <option>Carnicería</option><option>Supermercado</option><option>Distribuidor</option><option>Frigorífico</option><option>Gastronomía</option><option>Otro</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Teléfono</label><input type="text" class="form-control" id="m-cliTel"></div>
+              <div class="form-group"><label>Email</label><input type="email" class="form-control" id="m-cliEmail"></div>
+            </div>
+            <div class="form-group"><label>Dirección</label><input type="text" class="form-control" id="m-cliDir"></div>
+            <div class="form-group"><label>Localidad</label><input type="text" class="form-control" id="m-cliLoc"></div>
+          `;
+          footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="guardarCliente()"><i class="fas fa-save"></i> Guardar Cliente</button>
+          `;
+          break;
+
+        case 'nuevoProveedor':
+          title.innerHTML = '<i class="fas fa-truck-plus"></i> Nuevo Proveedor';
+          body.innerHTML = `
+            <div class="modal-grid">
+              <div class="form-group"><label>Razón Social *</label><input type="text" class="form-control" id="m-provRazon"></div>
+              <div class="form-group"><label>CUIT *</label><input type="text" class="form-control" id="m-provCuit" placeholder="30-12345678-9"></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>RENSPA</label><input type="text" class="form-control" id="m-provRenspa" placeholder="06.123.0.12345/00"></div>
+              <div class="form-group"><label>Tipo</label>
+                <select class="form-control" id="m-provTipo">
+                  <option>Ganadero</option><option>Consignatario</option><option>Feed Lot</option><option>Otro</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Provincia</label><input type="text" class="form-control" id="m-provProv"></div>
+              <div class="form-group"><label>Teléfono</label><input type="text" class="form-control" id="m-provTel"></div>
+            </div>
+            <div class="form-group"><label>Email</label><input type="email" class="form-control" id="m-provEmail"></div>
+          `;
+          footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="guardarProveedor()"><i class="fas fa-save"></i> Guardar Proveedor</button>
+          `;
+          break;
+
+        case 'nuevoEmpleado':
+          title.innerHTML = '<i class="fas fa-user-tie"></i> Nuevo Empleado';
+          body.innerHTML = `
+            <div class="modal-grid">
+              <div class="form-group"><label>Nombre Completo *</label><input type="text" class="form-control" id="m-empNombre"></div>
+              <div class="form-group"><label>DNI *</label><input type="text" class="form-control" id="m-empDni" placeholder="28.456.789"></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Sector</label>
+                <select class="form-control" id="m-empSector">
+                  <option>Faena</option><option>Desposte</option><option>Cámaras</option><option>Administración</option><option>Logística</option><option>Mantenimiento</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Cargo</label><input type="text" class="form-control" id="m-empCargo"></div>
+            </div>
+            <div class="modal-grid">
+              <div class="form-group"><label>Fecha Ingreso</label><input type="date" class="form-control" id="m-empFecha"></div>
+              <div class="form-group"><label>Sueldo Básico</label><input type="number" class="form-control" id="m-empSueldo" value="600000"></div>
+            </div>
+          `;
+          footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="guardarEmpleado()"><i class="fas fa-save"></i> Guardar</button>
+          `;
+          break;
+
+        case 'verFactura':
+          content.classList.add('modal-lg');
+          title.innerHTML = '<i class="fas fa-file-invoice"></i> Vista Previa de Factura';
+          body.innerHTML = generarVistaFactura();
+          footer.innerHTML = `
+            <button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>
+            <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir</button>
+            <button class="btn btn-success"><i class="fas fa-envelope"></i> Enviar por Email</button>
+          `;
+          break;
+
+        default:
+          title.innerHTML = '<i class="fas fa-info-circle"></i> Información';
+          body.innerHTML = '<p class="text-muted">Función en desarrollo.</p>';
+          footer.innerHTML = '<button class="btn btn-secondary" onclick="closeModal()">Cerrar</button>';
+      }
+      
+      overlay.classList.add('active');
+    }
+
+    function closeModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+
+    // ======================== MODAL HELPERS ========================
+    function calcularCostoTropa() {
+      const cabezas = parseFloat(document.getElementById('m-tropaCabezas')?.value) || 0;
+      const kgTotal = parseFloat(document.getElementById('m-tropaKgTotal')?.value) || 0;
+      const costoKg = parseFloat(document.getElementById('m-tropaCostoKg')?.value) || 0;
+      
+      if (document.getElementById('m-tropaKgProm')) {
+        document.getElementById('m-tropaKgProm').value = cabezas > 0 ? Math.round(kgTotal / cabezas) : 0;
+      }
+      if (document.getElementById('m-tropaCostoTotal')) {
+        document.getElementById('m-tropaCostoTotal').value = formatMoney(kgTotal * costoKg);
+      }
+    }
+
+    function seleccionarTropaFaena() {
+      const tropaId = document.getElementById('m-faenaTropa')?.value;
+      if (!tropaId) return;
+      const tropa = DB.get('tropas').find(t => t.id == tropaId);
+      if (tropa) {
+        document.getElementById('m-faenaCabezas').value = tropa.cabezas;
+        document.getElementById('m-faenaKgVivo').value = tropa.kgVivoTotal;
+        document.getElementById('m-faenaKgRes').value = Math.round(tropa.kgVivoTotal * 0.56);
+        calcularRendimiento();
+      }
+    }
+
+    function calcularRendimiento() {
+      const kgVivo = parseFloat(document.getElementById('m-faenaKgVivo')?.value) || 0;
+      const kgRes = parseFloat(document.getElementById('m-faenaKgRes')?.value) || 0;
+      if (document.getElementById('m-faenaRinde') && kgVivo > 0) {
+        const rinde = ((kgRes / kgVivo) * 100).toFixed(1);
+        document.getElementById('m-faenaRinde').value = rinde + '%';
+      }
+    }
+
+    function agregarItemVenta() {
+      const prodSelect = document.getElementById('m-vtaProducto');
+      const prodId = prodSelect?.value;
+      if (!prodId) { showToast('warning', 'Selección requerida', 'Seleccione un producto'); return; }
+      
+      const prod = DB.get('stock').find(s => s.id == prodId);
+      const cantidad = parseFloat(document.getElementById('m-vtaCantidad')?.value) || 0;
+      const precio = parseFloat(document.getElementById('m-vtaPrecioKg')?.value) || 0;
+      
+      if (cantidad > prod.stockKg) { showToast('error', 'Stock insuficiente', `Solo hay ${formatNumber(prod.stockKg)}kg disponibles`); return; }
+      
+      window.ventaItems = window.ventaItems || [];
+      window.ventaItems.push({ id: prod.id, producto: prod.producto, kg: cantidad, precioKg: precio, subtotal: cantidad * precio });
+      
+      renderVentaItems();
+      actualizarResumenVenta();
+      prodSelect.value = '';
+      document.getElementById('m-vtaCantidad').value = '100';
+    }
+
+    function renderVentaItems() {
+      const tbody = document.getElementById('ventaItemsBody');
+      if (!tbody) return;
+      tbody.innerHTML = (window.ventaItems || []).map((item, idx) => `
+        <tr>
+          <td>${item.producto}</td>
+          <td>${formatNumber(item.kg)} kg</td>
+          <td>${formatMoney(item.precioKg)}</td>
+          <td>${formatMoney(item.subtotal)}</td>
+          <td class="action-cell"><button class="btn btn-sm btn-danger" onclick="eliminarItemVenta(${idx})"><i class="fas fa-trash"></i></button></td>
+        </tr>
+      `).join('');
+    }
+
+    function eliminarItemVenta(idx) {
+      window.ventaItems.splice(idx, 1);
+      renderVentaItems();
+      actualizarResumenVenta();
+    }
+
+    function actualizarResumenVenta() {
+      const subtotal = (window.ventaItems || []).reduce((sum, i) => sum + i.subtotal, 0);
+      const iva = subtotal * 0.105;
+      const total = subtotal + iva;
+      
+      if (document.getElementById('vtaSubtotal')) document.getElementById('vtaSubtotal').textContent = formatMoney(subtotal);
+      if (document.getElementById('vtaIva')) document.getElementById('vtaIva').textContent = formatMoney(iva);
+      if (document.getElementById('vtaTotal')) document.getElementById('vtaTotal').textContent = formatMoney(total);
+    }
+
+    function agregarItemFactura() {
+      const desc = document.getElementById('m-factDesc')?.value;
+      const cant = parseFloat(document.getElementById('m-factCant')?.value) || 0;
+      const precio = parseFloat(document.getElementById('m-factPrecio')?.value) || 0;
+      const ivaRate = parseFloat(document.getElementById('m-factIvaRate')?.value) || 10.5;
+      
+      if (!desc || cant <= 0) { showToast('warning', 'Datos incompletos', 'Complete descripción y cantidad'); return; }
+      
+      window.facturaItems = window.facturaItems || [];
+      const subtotal = cant * precio;
+      const ivaAmt = subtotal * (ivaRate / 100);
+      
+      window.facturaItems.push({ desc, cant, precio, ivaRate, subtotal, ivaAmt });
+      
+      renderFacturaItems();
+      actualizarResumenFactura();
+      
+      document.getElementById('m-factDesc').value = '';
+      document.getElementById('m-factCant').value = '100';
+    }
+
+    function renderFacturaItems() {
+      const tbody = document.getElementById('facturaItemsBody');
+      if (!tbody) return;
+      tbody.innerHTML = (window.facturaItems || []).map((item, idx) => `
+        <tr>
+          <td>${item.desc}</td>
+          <td>${formatNumber(item.cant)} kg</td>
+          <td>${formatMoney(item.precio)}</td>
+          <td>${formatMoney(item.subtotal)}</td>
+          <td>${item.ivaRate}%</td>
+          <td>${formatMoney(item.ivaAmt)}</td>
+          <td class="action-cell"><button class="btn btn-sm btn-danger" onclick="eliminarItemFactura(${idx})"><i class="fas fa-trash"></i></button></td>
+        </tr>
+      `).join('');
+    }
+
+    function eliminarItemFactura(idx) {
+      window.facturaItems.splice(idx, 1);
+      renderFacturaItems();
+      actualizarResumenFactura();
+    }
+
+    function actualizarResumenFactura() {
+      const neto = (window.facturaItems || []).reduce((sum, i) => sum + i.subtotal, 0);
+      const iva = (window.facturaItems || []).reduce((sum, i) => sum + i.ivaAmt, 0);
+      const total = neto + iva;
+      
+      if (document.getElementById('factNeto')) document.getElementById('factNeto').textContent = formatMoney(neto);
+      if (document.getElementById('factIva')) document.getElementById('factIva').textContent = formatMoney(iva);
+      if (document.getElementById('factTotal')) document.getElementById('factTotal').textContent = formatMoney(total);
+    }
+
+    function cargarDatosCliente() {
+      const clientId = document.getElementById('m-factCliente')?.value;
+      if (!clientId) return;
+      const cliente = DB.get('clientes').find(c => c.id == clientId);
+      if (cliente) {
+        document.getElementById('m-factCuit').value = cliente.cuit;
+        document.getElementById('m-factCondIva').value = cliente.tipoIva;
+      }
+    }
+
+    function generarVistaFactura() {
+      const f = DB.get('facturas')[0];
+      if (!f) return '<p class="text-muted">No hay facturas para previsualizar</p>';
+      
+      return `
+        <div class="factura-preview">
+          <div class="factura-header-section">
+            <div>
+              <strong>FRIGORÍFICO DON PEDRO S.A.</strong><br>
+              CUIT: 30-12345678-9<br>
+              Ruta 201 Km 45, Buenos Aires<br>
+              Inicio Actividades: 15/03/2010<br>
+              Cond. IVA: Responsable Inscripto
+            </div>
+            <div class="factura-tipo">${f.tipo}<small>FACTURA</small></div>
+            <div class="text-right">
+              <strong>${f.tipo} ${f.numero}</strong><br>
+              Fecha: ${formatDate(f.fecha)}<br>
+              CAE: ${f.cae}<br>
+              Vto. CAE: ${formatDate(f.vencCae)}
+            </div>
+          </div>
+          
+          <table class="factura-datos-table">
+            <tr><td class="label-cell">Cliente</td><td>${f.cliente}</td></tr>
+            <tr><td class="label-cell">CUIT</td><td>${f.cuit}</td></tr>
+            <tr><td class="label-cell">Cond. IVA</td><td>Responsable Inscripto</td></tr>
+            <tr><td class="label-cell">Domicilio</td><td>Av. Siempre Viva 123, CABA</td></tr>
+          </table>
+          
+          <table class="factura-items-table">
+            <thead><tr><th>Descripción</th><th>Cant. Kg</th><th>Precio Unit.</th><th>IVA %</th><th>Subtotal</th></tr></thead>
+            <tbody>
+              <tr><td>Media Res Bovina</td><td>500</td><td>${formatMoney(3800)}</td><td>10.5%</td><td>${formatMoney(1900000)}</td></tr>
+              <tr><td>Asado c/hueso</td><td>200</td><td>${formatMoney(5200)}</td><td>10.5%</td><td>${formatMoney(1040000)}</td></tr>
+            </tbody>
+          </table>
+          
+          <div class="factura-totales">
+            <table>
+              <tr><td>Neto Gravado:</td><td class="text-right">${formatMoney(f.netoGravado)}</td></tr>
+              <tr><td>IVA (10.5%):</td><td class="text-right">${formatMoney(f.iva)}</td></tr>
+              <tr class="total-row"><td>TOTAL:</td><td class="text-right">${formatMoney(f.total)}</td></tr>
+            </table>
+          </div>
+          
+          <div style="margin-top:30px;font-size:11px;color:#666">
+            <p><strong>Observaciones:</strong> Mercadería entregada en perfecto estado. Precio válido por 48hs.</p>
+            <p class="text-center mt-20"><em>¡Gracias por su confianza!</em></p>
+          </div>
+        </div>
+      `;
+    }
+
+    function previsualizarFactura() {
+      openModal('verFactura');
+    }
+
+    // ======================== GUARDAR FUNCIONES ========================
+    function guardarTropa() {
+      const numero = document.getElementById('m-tropaNumero')?.value;
+      const fecha = document.getElementById('m-tropaFecha')?.value;
+      const proveedorId = document.getElementById('m-tropaProveedor')?.value;
+      const especie = document.getElementById('m-tropaEspecie')?.value;
+      const cabezas = parseInt(document.getElementById('m-tropaCabezas')?.value);
+      const kgVivoTotal = parseInt(document.getElementById('m-tropaKgTotal')?.value);
+      const dte = document.getElementById('m-tropaDTE')?.value;
+      const corral = document.getElementById('m-tropaCorral')?.value;
+      const costoKg = parseFloat(document.getElementById('m-tropaCostoKg')?.value);
+      
+      if (!numero || !fecha || !proveedorId || !especie || !cabezas || !kgVivoTotal || !dte) {
+        showToast('error', 'Campos requeridos', 'Complete todos los campos obligatorios');
+        return;
+      }
+      
+      const proveedor = DB.get('proveedores').find(p => p.id == proveedorId);
+      const nuevasTropas = DB.get('tropas');
+      nuevasTropas.push({
+        id: DB.getNextId('tropas'), numero, fecha, proveedorId,
+        proveedor: proveedor?.razonSocial || 'Desconocido', especie, cabezas,
+        kgVivoTotal, kgPromedio: Math.round(kgVivoTotal / cabezas),
+        dte, corral, estado: 'corral', costoKg
+      });
+      DB.set('tropas', nuevasTropas);
+      
+      closeModal();
+      showToast('success', 'Tropa registrada', `Tropa ${numero} ingresada correctamente`);
+      addAuditLog('Crear', 'Tropas', `Nueva tropa ${numero} registrada`);
+      renderTropas();
+      loadDashboard();
+    }
+
+    function guardarFaena() {
+      const orden = document.getElementById('m-faenaOrden')?.value;
+      const fecha = document.getElementById('m-faenaFecha')?.value;
+      const tropaId = document.getElementById('m-faenaTropa')?.value;
+      const cabezas = parseInt(document.getElementById('m-faenaCabezas')?.value);
+      const kgVivo = parseInt(document.getElementById('m-faenaKgVivo')?.value);
+      const kgRes = parseInt(document.getElementById('m-faenaKgRes')?.value);
+      const decomisos = parseInt(document.getElementById('m-faenaDecomisos')?.value) || 0;
+      const inspector = document.getElementById('m-faenaInspector')?.value;
+      const estado = document.getElementById('m-faenaEstado')?.value;
+      
+      if (!tropaId || !cabezas || !kgVivo || !kgRes) {
+        showToast('error', 'Campos requeridos', 'Complete los datos de faena');
+        return;
+      }
+      
+      const tropa = DB.get('tropas').find(t => t.id == tropaId);
+      const nuevaFaena = DB.get('faena');
+      nuevaFaena.push({
+        id: DB.getNextId('faena'), orden, fecha, tropaId,
+        tropa: tropa?.numero || 'Desconocida', especie: tropa?.especie || 'bovino',
+        cabezas, kgVivo, kgRes, rinde: parseFloat(((kgRes/kgVivo)*100).toFixed(1)),
+        decomisos, inspector: inspector || 'Dr. Martínez', estado
+      });
+      DB.set('faena', nuevaFaena);
+      
+      // Actualizar estado de la tropa
+      const todasTropas = DB.get('tropas');
+      const idx = todasTropas.findIndex(t => t.id == tropaId);
+      if (idx !== -1) todasTropas[idx].estado = 'faenada';
+      DB.set('tropas', todasTropas);
+      
+      closeModal();
+      showToast('success', 'Faena registrada', `Faena ${orden} completada`);
+      addAuditLog('Faena', 'Faena', `Faena ${orden} registrada - ${cabezas} cab`);
+      renderFaena();
+      loadDashboard();
+    }
+
+    function guardarVenta() {
+      if (!window.ventaItems || window.ventaItems.length === 0) {
+        showToast('error', 'Sin items', 'Agregue al menos un producto a la venta');
+        return;
+      }
+      
+      const clienteId = document.getElementById('m-vtaCliente')?.value;
+      if (!clienteId) { showToast('error', 'Cliente requerido', 'Seleccione un cliente'); return; }
+      
+      const cliente = DB.get('clientes').find(c => c.id == clienteId);
+      const subtotal = window.ventaItems.reduce((sum, i) => sum + i.subtotal, 0);
+      const iva = subtotal * 0.105;
+      const total = subtotal + iva;
+      const kgTotal = window.ventaItems.reduce((sum, i) => sum + i.kg, 0);
+      
+      const nuevasVentas = DB.get('ventas');
+      nuevasVentas.push({
+        id: DB.getNextId('ventas'),
+        numero: `VTA-2025-${String(DB.getNextId('ventas')).padStart(3,'0')}`,
+        fecha: today(), clienteId, cliente: cliente?.razonSocial || 'Desconocido',
+        items: window.ventaItems.length, kgTotal, subtotal, iva, total, estado: 'pendiente'
+      });
+      DB.set('ventas', nuevasVentas);
+      
+      // Actualizar stock
+      const stock = DB.get('stock');
+      window.ventaItems.forEach(item => {
+        const idx = stock.findIndex(s => s.id === item.id);
+        if (idx !== -1) stock[idx].stockKg -= item.kg;
+      });
+      DB.set('stock', stock);
+      
+      closeModal();
+      showToast('success', 'Venta registrada', `Venta por ${formatMoney(total)} guardada`);
+      addAuditLog('Venta', 'Ventas', `Venta registrada - ${formatMoney(total)}`);
+      renderVentas();
+      loadDashboard();
+    }
+
+    function emitirFactura() {
+      if (!window.facturaItems || window.facturaItems.length === 0) {
+        showToast('error', 'Sin items', 'Agregue al menos un item a la factura');
+        return;
+      }
+      
+      const clientId = document.getElementById('m-factCliente')?.value;
+      if (!clientId) { showToast('error', 'Cliente requerido', 'Seleccione un cliente'); return; }
+      
+      const cliente = DB.get('clientes').find(c => c.id == clientId);
+      const tipo = document.getElementById('m-factTipo')?.value || 'A';
+      const neto = window.facturaItems.reduce((sum, i) => sum + i.subtotal, 0);
+      const iva = window.facturaItems.reduce((sum, i) => sum + i.ivaAmt, 0);
+      const total = neto + iva;
+      
+      const nuevasFacturas = DB.get('facturas');
+      nuevasFacturas.push({
+        id: DB.getNextId('facturas'), tipo,
+        numero: `0001-0000${String(1528 + nuevasFacturas.length).padStart(6,'0')}`,
+        fecha: today(), clienteId, cliente: cliente?.razonSocial || 'Desconocido',
+        cuit: cliente?.cuit || '00-00000000-0', netoGravado: neto, iva, total,
+        cae: `750123456789${String(6 + nuevasFacturas.length).padStart(2,'0')}`,
+        vencCae: new Date(Date.now() + 10*24*60*60*1000).toISOString().split('T')[0],
+        estado: 'emitida'
+      });
+      DB.set('facturas', nuevasFacturas);
+      
+      closeModal();
+      showToast('success', 'Factura emitida', `CAE generado: 75012345678906`);
+      addAuditLog('Facturar', 'Facturación', `Factura ${tipo} emitida`);
+      renderFacturas();
+      loadDashboard();
+    }
+
+    function guardarCliente() {
+      const razon = document.getElementById('m-cliRazon')?.value;
+      const cuit = document.getElementById('m-cliCuit')?.value;
+      if (!razon || !cuit) { showToast('error', 'Campos requeridos', 'Razón Social y CUIT son obligatorios'); return; }
+      
+      const nuevosClientes = DB.get('clientes');
+      nuevosClientes.push({
+        id: DB.getNextId('clientes'), codigo: `CLI-${String(nuevosClientes.length + 1).padStart(3,'0')}`,
+        razonSocial: razon, cuit, tipoIva: document.getElementById('m-cliIva')?.value || 'Responsable Inscripto',
+        categoria: document.getElementById('m-cliCat')?.value || 'Carnicería',
+        telefono: document.getElementById('m-cliTel')?.value || '',
+        localidad: document.getElementById('m-cliLoc')?.value || '',
+        email: document.getElementById('m-cliEmail')?.value || '', saldoCC: 0, estado: 'activo'
+      });
+      DB.set('clientes', nuevosClientes);
+      
+      closeModal();
+      showToast('success', 'Cliente registrado', `${razon} agregado`);
+      renderClientes();
+    }
+
+    function guardarProveedor() {
+      const razon = document.getElementById('m-provRazon')?.value;
+      const cuit = document.getElementById('m-provCuit')?.value;
+      if (!razon || !cuit) { showToast('error', 'Campos requeridos', 'Razón Social y CUIT son obligatorios'); return; }
+      
+      const nuevosProveedores = DB.get('proveedores');
+      nuevosProveedores.push({
+        id: DB.getNextId('proveedores'), codigo: `PROV-${String(nuevosProveedores.length + 1).padStart(3,'0')}`,
+        razonSocial: razon, cuit, renspa: document.getElementById('m-provRenspa')?.value || '',
+        tipo: document.getElementById('m-provTipo')?.value || 'Ganadero',
+        provincia: document.getElementById('m-provProv')?.value || '',
+        telefono: document.getElementById('m-provTel')?.value || '',
+        email: document.getElementById('m-provEmail')?.value || '', saldo: 0, estado: 'activo'
+      });
+      DB.set('proveedores', nuevosProveedores);
+      
+      closeModal();
+      showToast('success', 'Proveedor registrado', `${razon} agregado`);
+      renderProveedores();
+    }
+
+    function guardarEmpleado() {
+      const nombre = document.getElementById('m-empNombre')?.value;
+      const dni = document.getElementById('m-empDni')?.value;
+      if (!nombre || !dni) { showToast('error', 'Campos requeridos', 'Nombre y DNI son obligatorios'); return; }
+      
+      const nuevosEmpleados = DB.get('empleados');
+      nuevosEmpleados.push({
+        id: DB.getNextId('empleados'), legajo: `E-${String(nuevosEmpleados.length + 1).padStart(3,'0')}`,
+        nombre, dni, sector: document.getElementById('m-empSector')?.value || 'Faena',
+        cargo: document.getElementById('m-empCargo')?.value || 'Operario',
+        fechaIngreso: document.getElementById('m-empFecha')?.value || today(),
+        sueldoBasico: parseInt(document.getElementById('m-empSueldo')?.value) || 600000,
+        estado: 'activo'
+      });
+      DB.set('empleados', nuevosEmpleados);
+      
+      closeModal();
+      showToast('success', 'Empleado registrado', `${nombre} agregado`);
+      renderEmpleados();
+    }
+
+    function guardarConfigEmpresa() {
+      showToast('success', 'Configuración guardada', 'Los cambios se aplicaron correctamente');
+      addAuditLog('Configurar', 'Empresa', 'Datos de empresa actualizados');
+    }
+
+    function realizarBackup() {
+      showToast('success', 'Backup realizado', 'Base de datos exportada correctamente');
+    }
+
+    function exportarHacienda() {
+      showToast('info', 'Exportando...', 'Generando archivo Excel con datos de hacienda');
+    }
+
+    // ======================== RENDER FUNCTIONS ========================
+    function getBadgeEstado(estado) {
+      const badges = {
+        corral: '<span class="badge badge-warning"><i class="fas fa-circle"></i> En Corral</span>',
+        faenada: '<span class="badge badge-success"><i class="fas fa-check-circle"></i> Faenada</span>',
+        transito: '<span class="badge badge-info"><i class="fas fa-truck"></i> En Tránsito</span>'
+      };
+      return badges[estado] || '<span class="badge badge-secondary">Desconocido</span>';
+    }
+
+    function getBadgeEstadoFaena(estado) {
+      return estado === 'completada' 
+        ? '<span class="badge badge-success"><i class="fas fa-check"></i> Completada</span>'
+        : '<span class="badge badge-warning"><i class="fas fa-clock"></i> En Proceso</span>';
+    }
+
+    function getBadgeEstadoVenta(estado) {
+      const badges = {
+        entregado: '<span class="badge badge-success">Entregado</span>',
+        pendiente: '<span class="badge badge-warning">Pendiente</span>',
+        cancelado: '<span class="badge badge-danger">Cancelado</span>'
+      };
+      return badges[estado] || '<span class="badge badge-secondary">Desconocido</span>';
+    }
+
+    function getBadgeEstadoFact(estado) {
+      const badges = {
+        emitida: '<span class="badge badge-info">Emitida</span>',
+        pagada: '<span class="badge badge-success">Pagada</span>',
+        vencida: '<span class="badge badge-danger">Vencida</span>',
+        anulada: '<span class="badge badge-secondary">Anulada</span>'
+      };
+      return badges[estado] || '<span class="badge badge-secondary">Desconocido</span>';
+    }
+
+    function renderTropas() {
+      let tropas = DB.get('tropas');
+      const filtroTipo = document.getElementById('haciendaFilterTipo')?.value;
+      const filtroEstado = document.getElementById('haciendaFilterEstado')?.value;
+      
+      if (filtroTipo) tropas = tropas.filter(t => t.especie === filtroTipo);
+      if (filtroEstado) tropas = tropas.filter(t => t.estado === filtroEstado);
+      
+      document.getElementById('tropasTable').innerHTML = tropas.map(t => `
+        <tr>
+          <td><strong>${t.numero}</strong></td>
+          <td>${formatDate(t.fecha)}</td>
+          <td>${t.proveedor}</td>
+          <td><span class="tropa-tag ${t.especie}">${t.especie.charAt(0).toUpperCase() + t.especie.slice(1)}</span></td>
+          <td><strong>${t.cabezas}</strong></td>
+          <td>${formatNumber(t.kgVivoTotal)} kg</td>
+          <td>${t.kgPromedio} kg</td>
+          <td>${t.dte}</td>
+          <td>${t.corral}</td>
+          <td>${getBadgeEstado(t.estado)}</td>
+          <td>
+            <button class="btn btn-sm btn-secondary" title="Ver detalle"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-secondary" title="Editar"><i class="fas fa-edit"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderFaena() {
+      const faena = DB.get('faena');
+      document.getElementById('faenaTable').innerHTML = faena.map(f => `
+        <tr>
+          <td><strong>${f.orden}</strong></td>
+          <td>${formatDate(f.fecha)}</td>
+          <td>${f.tropa}</td>
+          <td>${f.especie.charAt(0).toUpperCase() + f.especie.slice(1)}</td>
+          <td>${f.cabezas}</td>
+          <td>${formatNumber(f.kgVivo)} kg</td>
+          <td><strong>${formatNumber(f.kgRes)} kg</strong></td>
+          <td><strong>${f.rinde}%</strong></td>
+          <td>${f.decomisos}</td>
+          <td>${f.inspector}</td>
+          <td>${getBadgeEstadoFaena(f.estado)}</td>
+          <td><button class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderStock() {
+      const stock = DB.get('stock');
+      document.getElementById('stockTable').innerHTML = stock.map(s => {
+        const estado = s.stockKg < s.stockMin ? 'bajo' : s.stockKg < s.stockMin * 1.5 ? 'medio' : 'ok';
+        const badge = estado === 'bajo' ? 'badge-danger' : estado === 'medio' ? 'badge-warning' : 'badge-success';
+        const label = estado === 'bajo' ? 'Bajo' : estado === 'medio' ? 'Medio' : 'OK';
+        return `
+          <tr>
+            <td>${s.codigo}</td>
+            <td><strong>${s.producto}</strong></td>
+            <td>${s.categoria}</td>
+            <td>${s.camara}</td>
+            <td><strong>${formatNumber(s.stockKg)} kg</strong></td>
+            <td>${formatNumber(s.stockMin)} kg</td>
+            <td>${formatMoney(s.precioKg)}</td>
+            <td><strong>${formatMoney(s.stockKg * s.precioKg)}</strong></td>
+            <td>${formatDate(s.ultMov)}</td>
+            <td><span class="badge ${badge}"><i class="fas fa-circle"></i> ${label}</span></td>
+            <td><button class="btn btn-sm btn-secondary"><i class="fas fa-arrows-rotate"></i></button></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderCortes() {
+      document.getElementById('cortesTable').innerHTML = DB.get('cortes').map(c => `
+        <tr>
+          <td>${c.codigo}</td>
+          <td><strong>${c.nombre}</strong></td>
+          <td>${c.categoria}</td>
+          <td>${c.rindeEst}%</td>
+          <td>${formatMoney(c.precioKg)}</td>
+          <td>${formatNumber(c.stock)} kg</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderVentas() {
+      document.getElementById('ventasTable').innerHTML = DB.get('ventas').map(v => `
+        <tr>
+          <td><strong>${v.numero}</strong></td>
+          <td>${formatDate(v.fecha)}</td>
+          <td>${v.cliente}</td>
+          <td>${v.items}</td>
+          <td>${formatNumber(v.kgTotal)} kg</td>
+          <td>${formatMoney(v.subtotal)}</td>
+          <td>${formatMoney(v.iva)}</td>
+          <td><strong>${formatMoney(v.total)}</strong></td>
+          <td>${getBadgeEstadoVenta(v.estado)}</td>
+          <td>
+            <button class="btn btn-sm btn-secondary" title="Ver"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-outline" title="Facturar" onclick="openModal('nuevaFactura')"><i class="fas fa-file-invoice"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderFacturas() {
+      let facturas = DB.get('facturas');
+      const filtroTipo = document.getElementById('factTipo')?.value;
+      if (filtroTipo) facturas = facturas.filter(f => f.tipo === filtroTipo);
+      
+      document.getElementById('facturasTable').innerHTML = facturas.map(f => `
+        <tr>
+          <td><strong>FC ${f.tipo}</strong></td>
+          <td>${f.numero}</td>
+          <td>${formatDate(f.fecha)}</td>
+          <td>${f.cliente}</td>
+          <td>${f.cuit}</td>
+          <td>${formatMoney(f.netoGravado)}</td>
+          <td>${formatMoney(f.iva)}</td>
+          <td><strong>${formatMoney(f.total)}</strong></td>
+          <td><small>${f.cae}</small></td>
+          <td>${getBadgeEstadoFact(f.estado)}</td>
+          <td>
+            <button class="btn btn-sm btn-secondary" onclick="verFacturaDetalle(${f.id})" title="Ver"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-secondary" title="PDF"><i class="fas fa-file-pdf"></i></button>
+            <button class="btn btn-sm btn-secondary" title="Email"><i class="fas fa-envelope"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderClientes() {
+      document.getElementById('clientesTable').innerHTML = DB.get('clientes').map(c => `
+        <tr>
+          <td>${c.codigo}</td>
+          <td><strong>${c.razonSocial}</strong></td>
+          <td>${c.cuit}</td>
+          <td>${c.tipoIva}</td>
+          <td>${c.categoria}</td>
+          <td>${c.telefono}</td>
+          <td>${c.localidad}</td>
+          <td>${c.saldoCC > 0 ? formatMoney(c.saldoCC) : '-'}</td>
+          <td>${c.estado.charAt(0).toUpperCase() + c.estado.slice(1)}</td>
+          <td>
+            <button class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderProveedores() {
+      document.getElementById('proveedoresTable').innerHTML = DB.get('proveedores').map(p => `
+        <tr>
+          <td>${p.codigo}</td>
+          <td><strong>${p.razonSocial}</strong></td>
+          <td>${p.cuit}</td>
+          <td>${p.renspa}</td>
+          <td>${p.tipo}</td>
+          <td>${p.provincia}</td>
+          <td>${p.telefono}</td>
+          <td>${formatMoney(Math.abs(p.saldo))}</td>
+          <td>${p.estado.charAt(0).toUpperCase() + p.estado.slice(1)}</td>
+          <td><button class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderPrecios() {
+      const stock = DB.get('stock');
+      document.getElementById('preciosTable').innerHTML = stock.map(s => {
+        const ivaRate = 10.5;
+        const precioFinal = s.precioKg * (1 + ivaRate/100);
+        return `
+          <tr>
+            <td>${s.codigo}</td>
+            <td><strong>${s.producto}</strong></td>
+            <td>${s.categoria}</td>
+            <td>${formatMoney(s.precioKg)}</td>
+            <td>${ivaRate}%</td>
+            <td><strong>${formatMoney(Math.round(precioFinal))}</strong></td>
+            <td>${formatDate(s.ultMov)}</td>
+            <td><button class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></button></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderEmpleados() {
+      document.getElementById('empleadosTable').innerHTML = DB.get('empleados').map(e => `
+        <tr>
+          <td>${e.legajo}</td>
+          <td><strong>${e.nombre}</strong></td>
+          <td>${e.dni}</td>
+          <td>${e.sector}</td>
+          <td>${e.cargo}</td>
+          <td>${formatDate(e.fechaIngreso)}</td>
+          <td class="money">${formatMoney(e.sueldoBasico)}</td>
+          <td>${e.estado.charAt(0).toUpperCase() + e.estado.slice(1)}</td>
+          <td><button class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderDTEs() {
+      document.getElementById('dtesTable').innerHTML = DB.get('dtes').map(d => `
+        <tr>
+          <td><strong>${d.numero}</strong></td>
+          <td>${formatDate(d.fecha)}</td>
+          <td>${d.origenRenspa}</td>
+          <td>${d.destino}</td>
+          <td>${d.especie}</td>
+          <td>${d.cabezas}</td>
+          <td>${d.transportista}</td>
+          <td>${d.patente}</td>
+          <td>${d.estado === 'cerrado' ? '<span class="badge badge-success">Cerrado</span>' : '<span class="badge badge-info">En Tránsito</span>'}</td>
+          <td><button class="btn btn-sm btn-secondary"><i class="fas fa-eye"></i></button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderAuditoria() {
+      document.getElementById('auditoriaTable').innerHTML = DB.get('auditoria').map(a => `
+        <tr>
+          <td>${a.fecha}</td>
+          <td>${a.usuario}</td>
+          <td>${a.accion}</td>
+          <td>${a.modulo}</td>
+          <td>${a.detalle}</td>
+          <td><small>${a.ip}</small></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderUsuarios() {
+      document.getElementById('usuariosTable').innerHTML = DB.get('usuarios').map(u => `
+        <tr>
+          <td><strong>${u.user}</strong></td>
+          <td>${u.nombre}</td>
+          <td>${u.rol.charAt(0).toUpperCase() + u.rol.slice(1)}</td>
+          <td>${u.ultimoAcceso}</td>
+          <td>${u.estado === 'activo' ? '<span class="badge badge-success">Activo</span>' : '<span class="badge badge-secondary">Inactivo</span>'}</td>
+          <td><button class="btn btn-sm btn-secondary"><i class="fas fa-edit"></i></button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderCCClientes() {
+      document.getElementById('ccClientesTable').innerHTML = DB.get('clientes').filter(c => c.saldoCC > 0).map(c => `
+        <tr>
+          <td><strong>${c.razonSocial}</strong></td>
+          <td>${c.cuit}</td>
+          <td>${formatMoney(c.saldoCC * 1.5)}</td>
+          <td>${formatMoney(c.saldoCC)}</td>
+          <td class="money negative">${formatMoney(c.saldoCC)}</td>
+          <td class="text-danger"><i class="fas fa-exclamation-triangle"></i> 15 días</td>
+          <td><button class="btn btn-sm btn-outline" onclick="openModal('registrarCobro')"><i class="fas fa-money-bill"></i> Cobrar</button></td>
+        </tr>
+      `).join('') || '<tr><td colspan="7" class="text-center text-muted">No hay saldos pendientes</td></tr>';
+    }
+
+    // ======================== DASHBOARD ========================
+    function loadDashboard() {
+      setCurrentDate();
+      
+      // Chart
+      const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      const values = [2800,3100,2950,3200,3400,3100,3300,3500,3200,3400,3456,0];
+      const maxVal = Math.max(...values);
+      const chartHTML = values.map((v, i) => {
+        const h = (v / maxVal) * 180;
+        const color = i === 10 ? 'linear-gradient(180deg, var(--accent), #ff6b81)' : 'linear-gradient(180deg, var(--info), #a29bfe)';
+        return `
+          <div class="chart-bar" style="height:${h}px;background:${color}">
+            ${v > 0 ? `<span class="chart-value">${formatNumber(v)}</span>` : ''}
+            <span class="chart-label">${months[i]}</span>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('dashChart').innerHTML = chartHTML;
+      
+      // Activity
+      const activities = [
+        { icon: 'green', iconClass: 'fa-truck-ramp-box', title: 'Tropa T-2025-007 en tránsito', desc: 'Feed Lot Pampeano - 56 porcinos', time: 'Hace 25 min' },
+        { icon: 'red', iconClass: 'fa-industry', title: 'Faena FAE-2025-003 iniciada', desc: '85 bovinos - Tropa T-2025-002', time: 'Hace 1 hora' },
+        { icon: 'blue', iconClass: 'fa-file-invoice-dollar', title: 'Factura A 0001-1527 emitida', desc: 'Frigorífico Sur SA - $20.995.000', time: 'Hace 2 horas' },
+        { icon: 'orange', iconClass: 'fa-shopping-cart', title: 'Venta VTA-2025-005 registrada', desc: 'Frigorífico Sur SA - 5.000 kg', time: 'Hace 2 horas' },
+        { icon: 'green', iconClass: 'fa-money-bill', title: 'Cobro registrado', desc: 'Carnicería Don José pagó $2.337.075', time: 'Hace 3 horas' },
+        { icon: 'red', iconClass: 'fa-exclamation-triangle', title: 'Stock bajo: Tira de Asado', desc: '4.300 kg - Mínimo: 5.000 kg', time: 'Hace 4 horas' }
+      ];
+      document.getElementById('activityList').innerHTML = activities.map(a => `
+        <li class="activity-item">
+          <div class="activity-icon ${a.icon}"><i class="fas ${a.iconClass}"></i></div>
+          <div class="activity-content">
+            <div class="title">${a.title}</div>
+            <div class="desc">${a.desc}</div>
+            <div class="time">${a.time}</div>
+          </div>
+        </li>
+      `).join('');
+      
+      // Tropas table
+      const tropas = DB.get('tropas').slice(-5).reverse();
+      document.getElementById('dashTropasTable').innerHTML = tropas.map(t => `
+        <tr>
+          <td><strong>${t.numero}</strong></td>
+          <td>${t.proveedor.split(' ').slice(0,2).join(' ')}</td>
+          <td>${t.cabezas}</td>
+          <td>${formatDate(t.fecha)}</td>
+          <td>${getBadgeEstado(t.estado)}</td>
+        </tr>
+      `).join('');
+      
+      // Facturas table
+      const facturas = DB.get('facturas').slice(-5).reverse();
+      document.getElementById('dashFacturasTable').innerHTML = facturas.map(f => `
+        <tr>
+          <td><strong>FC ${f.tipo} ${f.numero}</strong></td>
+          <td>${f.cliente.split(' ').slice(0,3).join(' ')}</td>
+          <td>${formatMoney(f.total)}</td>
+          <td>${getBadgeEstadoFact(f.estado)}</td>
+        </tr>
+      `).join('');
+      
+      // Alerts
+      const stockBajo = DB.get('stock').filter(s => s.stockKg < s.stockMin);
+      let alertsHTML = '';
+      if (stockBajo.length > 0) {
+        alertsHTML += `<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> <strong>${stockBajo.length} producto(s) con stock bajo mínimo:</strong> ${stockBajo.map(s => s.producto).join(', ')}</div>`;
+      }
+      const tropasTransito = DB.get('tropas').filter(t => t.estado === 'transito');
+      if (tropasTransito.length > 0) {
+        alertsHTML += `<div class="alert alert-info"><i class="fas fa-truck"></i> <strong>${tropasTransito.length} tropa(s) en tránsito:</strong> ${tropasTransito.map(t => t.numero).join(', ')}</div>`;
+      }
+      alertsHTML += `<div class="alert alert-success"><i class="fas fa-check-circle"></i> Sistema operando con normalidad. Conexión AFIP: <strong>Activa</strong>. SENASA: <strong>Conectado</strong>.</div>`;
+      document.getElementById('dashAlerts').innerHTML = alertsHTML;
+    }
+
+    // ======================== AUX FUNCTIONS ========================
+    function switchTab(btn, contentId) {
+      // Update buttons
+      btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // Update content
+      btn.parentElement.parentElement.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(contentId).classList.add('active');
+    }
+
+    function toggleHelp(el) {
+      const answer = el.nextElementSibling;
+      const icon = el.querySelector('i');
+      if (answer.classList.contains('open')) {
+        answer.classList.remove('open');
+        icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+      } else {
+        answer.classList.add('open');
+        icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+      }
+    }
+
+    function showNotifications() {
+      showToast('info', 'Notificaciones', 'No hay notificaciones nuevas');
+    }
+
+    function verFacturaDetalle(id) {
+      openModal('verFactura');
+    }
+
+    function addAuditLog(accion, modulo, detalle) {
+      const auditoria = DB.get('auditoria');
+      auditoria.unshift({
+        id: DB.getNextId('auditoria'),
+        fecha: new Date().toISOString().replace('T', ' ').substring(0, 19),
+        usuario: currentUser?.user || 'sistema',
+        accion, modulo, detalle,
+        ip: '192.168.1.' + Math.floor(Math.random() * 255)
+      });
+      DB.set('auditoria', auditoria.slice(0, 100)); // Keep last 100
+    }
+
+    // ======================== INIT ========================
+    document.addEventListener('DOMContentLoaded', function() {
+      seedData();
+      setCurrentDate();
+      
+      // Enter key on login
+      document.getElementById('loginPass')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') handleLogin();
+      });
+      
+      // Help accordion
+      document.querySelectorAll('.help-question').forEach(q => {
+        q.addEventListener('click', function() { toggleHelp(this); });
+      });
+    });
+  </script>
+</body>
+</html>
